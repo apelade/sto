@@ -30,6 +30,5 @@ app.get  "/index", route.index
 app.get  "/add_tag", route.add_tag
 app.post "/tag/new", route.addTag
 
-
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

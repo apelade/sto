@@ -27,4 +27,5 @@ module.exports =
         res.render "index",
           title: "Whitney Lives"
           tags: tags
-      
+ 
+ 
