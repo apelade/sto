@@ -9,7 +9,7 @@ Fork it on github.com/apelade/sto
 
 
 
-Dependencies: Going to try and use cloudnine's apis, despite their age, since
+Dependencies: Going to try and use cloudnine's apis since
               it's a good place to deploy a demo project.
 
 Coffeescript, although it does compile to js so node could run it,
