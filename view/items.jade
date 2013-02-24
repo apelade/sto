@@ -1,0 +1,6 @@
+- each item in items
+  h1(style="display:inline") #{item.name}
+  br
+  | Price: #{item.price}
+  input(type="button", value="Buy", onclick="addCartItem('#{item._id}', 'teknik', '#{item.name}' ,'','',#{item.price});")
+  br

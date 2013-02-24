@@ -1,0 +1,38 @@
+extends layout
+
+block center
+  br
+  form(method="post", action="/item/new")
+    fieldset
+      legend="Add An Item"
+      .clearfix
+        label(for="tag[name]")
+          b Select A Tag
+        .input
+          select(name="tag[name]")
+            - each tag in tags
+              option(value=tag.name) #{tag.name}
+      .clearfix
+        label(for="name")
+          b Name
+        .input
+          input.xlarge#title(type="text", name="item[name]")
+      .clearfix
+        label(for="price")
+          b Price
+        .input
+          input.xlarge#title(type="text", name="item[price]")
+      .clearfix
+        label(for="model")
+          b Model
+        .input
+          input.xlarge#title(type="text", name="item[model]")
+      .clearfix
+        label(for="info")
+          b Info
+        .input
+          textarea#post.xxlarge(name="item[info]",rows="3")
+      .actions
+        input.btn.primary(type="submit", value="Add Item")
+        |   
+        a.btn(href="/") Cancel
