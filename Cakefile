@@ -1,4 +1,4 @@
-# Cakefile
+# Cakefile runs on c9.io and Debian
 
 {exec} = require "child_process"
 

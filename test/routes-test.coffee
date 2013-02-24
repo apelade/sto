@@ -1,6 +1,6 @@
 routes = require "../route/index"
 mongoose = require "mongoose"
-require "should"
+should = require "should"
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 CONNECT_STR = "mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb"
@@ -52,15 +52,19 @@ describe "route", ->
         routes.showTags req, render: (view, vars) ->
           view.should.equal "tags"
           vars.tags[vars.tags.length-1].name.should.equal name
-
-          console.log "Look for Tag named"
-          console.log name + " in database"
+          console.log name + " : added to db, now remove"
           Tag.findOne({name:name}, (err, tag) ->
-            console.log err if err?
-            console.log tag.name if tag?
             tag.name.should.equal name
-            done())
-          
+            Tag.remove(tag, (err,res) ->
+              console.log err if err?
+              Tag.findById(tag._id, (err, tag) ->
+                should.not.exist(tag)
+                console.log "Succcess == " + !tag?
+                done()
+              )
+            ))
+              
+              
   describe "items", ->
     it "should display Items", ->
       req = null
@@ -93,13 +97,17 @@ describe "route", ->
         routes.showItems req, render: (view, vars) ->
           view.should.equal "items"
           vars.items[vars.items.length-1].name.should.equal name
-          
-          console.log "Look for Item named"
-          console.log name + " in database"          
+          console.log name + " : added to db, now remove"          
           Item.findOne({name:name}, (err, item) ->
-            console.log err if err?
-            console.log item.name if item?
             item.name.should.equal name
-            done())        
+            Item.remove(item, (err,res) ->
+              console.log err if err?
+              Item.findById(item._id, (err, item) ->
+                should.not.exist(item)
+                console.log "Succcess == " + !item?
+                done()
+              )
+            ))
+
 
           
