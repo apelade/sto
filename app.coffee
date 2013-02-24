@@ -27,8 +27,14 @@ app.configure "production", ->
     
 app.get  "/", route.index
 app.get  "/index", route.index
+
+app.get  "/tags", route.showTags
 app.get  "/add_tag", route.add_tag
 app.post "/tag/new", route.addTag
+
+app.get  "/items", route.showItems
+app.get  "/add_item", route.add_item
+app.post "/item/new", route.addItem
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

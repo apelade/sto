@@ -1,12 +1,15 @@
+extends layout
 
-form(method="post", action="/tag/new")
-  fieldset
-    legend="Add A Tag"
-    .clearfix
-      .input
-        input.xlarge#title(type="text", name="tag[name]")
-    .actions
-      input.btn.primary(type="submit", value="Add Tag")
-      |   
-      a.btn(href="/index") Cancel
+block center
+  br
+  form(method="post", action="/tag/new")
+    fieldset
+      legend="Add A Tag"
+      .clearfix
+        .input
+          input.xlarge#title(type="text", name="tag[name]")
+      .actions
+        input.btn.primary(type="submit", value="Add Tag")
+        |   
+        a.btn(href="/index") Cancel
 

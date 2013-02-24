@@ -15,7 +15,8 @@ task "test", "run tests", ->
     throw err if err
     console.log output
 
-# Currently have to ps -ef | grep coffee to see which one to kill
+# Currently have to enter "cake server &" or ps -ef | grep coffee to get PID
+# Then stop with kill
 task "server", "start the server", ->
   exec "./node_modules/.bin/coffee app.coffee", (err, output) ->
     throw err if err

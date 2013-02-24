@@ -1,10 +1,13 @@
 extends layout
 
-block content
+block center
   h1= title
-  p Welcome to #{title}
-  - each tag in tags
-    .page-header
-      h1
-        a(href="/")= tag.name
-    .content!=tag.name
+  p Welcome to the home #{title}
+    br
+    |  Tags:
+    br
+    include tags
+    br
+    |  Items:
+    br
+    include items
