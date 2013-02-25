@@ -1,6 +1,6 @@
 routes = require "../route/index"
 mongoose = require "mongoose"
-should = require "should"
+shouldpkg = require "should"
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 CONNECT_STR = "mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb"
@@ -52,14 +52,14 @@ describe "route", ->
         routes.showTags req, render: (view, vars) ->
           view.should.equal "tags"
           vars.tags[vars.tags.length-1].name.should.equal name
-          console.log name + " : added to db, now remove"
           Tag.findOne({name:name}, (err, tag) ->
             tag.name.should.equal name
+            console.log "\nTag " + name + " was added to db."
             Tag.remove(tag, (err,res) ->
               console.log err if err?
-              Tag.findById(tag._id, (err, tag) ->
-                should.not.exist(tag)
-                console.log "Succcess == " + !tag?
+              Tag.findById(tag._id, (err, tagfound) ->
+                shouldpkg.not.exist(tagfound)
+                console.log "Remove. Tag in db after remove? " + tagfound?
                 done()
               )
             ))
@@ -96,18 +96,16 @@ describe "route", ->
         route.should.eql "/items"
         routes.showItems req, render: (view, vars) ->
           view.should.equal "items"
-          vars.items[vars.items.length-1].name.should.equal name
-          console.log name + " : added to db, now remove"          
+          vars.items[vars.items.length-1].name.should.equal name        
           Item.findOne({name:name}, (err, item) ->
-            item.name.should.equal name
+            if(item.name.should.equal name)
+              console.log "\nItem " + name + "added to db."
             Item.remove(item, (err,res) ->
               console.log err if err?
-              Item.findById(item._id, (err, item) ->
-                should.not.exist(item)
-                console.log "Succcess == " + !item?
+              Item.findById(item._id, (err, itemfound) ->
+                shouldpkg.not.exist(itemfound)
+                console.log "Remove. Item in db after remove? " + itemfound?
                 done()
               )
             ))
 
-
-          

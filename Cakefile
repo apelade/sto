@@ -1,12 +1,22 @@
-# Cakefile runs on c9.io and Debian
+# Cakefile for sto
+# Now runs on Win7, c9.io and Debian
+# List reporter gets messages even on Windows.
+# Still no mocha test results from asynch embedded methods using done()
+# in test/routes-test.coffee but it does break when the assertions fail. 
 
 {exec} = require "child_process"
 
-REPORTER = "min"
+path = require "path"
+cs = path.sep
+BIN = ".#{cs}node_modules#{cs}.bin#{cs}"
+MOCHA  = "#{BIN}mocha"
+REPORTER = "list"
+COFFEE = "#{BIN}coffee"
+RUNFILE = "app.coffee"
+process.env["NODE_ENV"] = "test"
 
 task "test", "run tests", ->
-  exec "NODE_ENV=test 
-    ./node_modules/.bin/mocha 
+  exec "#{MOCHA}
     --compilers coffee:coffee-script
     --reporter #{REPORTER}
     --require coffee-script 
@@ -15,9 +25,9 @@ task "test", "run tests", ->
     throw err if err
     console.log output
 
-# Currently have to enter "cake server &" or ps -ef | grep coffee to get PID
-# Then stop with kill
+# Currently have to enter "cake server &" or ps -ef | grep coffee to get PIDs
+# Then stop with kill. There are two processes.
 task "server", "start the server", ->
-  exec "./node_modules/.bin/coffee app.coffee", (err, output) ->
+  exec "#{COFFEE} #{RUNFILE}", (err, output) ->
     throw err if err
     console.log output
