@@ -13,9 +13,9 @@ MOCHA  = "#{BIN}mocha"
 REPORTER = "list"
 COFFEE = "#{BIN}coffee"
 RUNFILE = "app.coffee"
-process.env["NODE_ENV"] = "test"
 
 task "test", "run tests", ->
+  process.env["NODE_ENV"] = "test"
   exec "#{MOCHA}
     --compilers coffee:coffee-script
     --reporter #{REPORTER}
