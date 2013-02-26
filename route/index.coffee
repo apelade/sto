@@ -20,47 +20,61 @@ module.exports =
           tags: tags
           items: items 
           
-          
-# handles get for form in view/add_tag.jade
-  add_tag : (req, res) ->
-    res.render "add_tag",
-      title: "Add a new tag item"
+## commented-out because tag_add.jade incorporates these via include
+#  tagForm : (req, res) ->
+#    res.render "tag_form",
+#
+## display tags list fragment
+#  tags : (req, res) ->
+#    Tag.find {}, (err, tags) ->
+#      res.render "tags",
+#        title: "Tags"
+#        tags: tags
+ 
+# show page to add tags
+  tagAdd : (req, res) ->
+    Tag.find {}, (err, tags) ->
+      res.render "tag_add",
+        title: "Now we are tagging!"
+        tags: tags
 
 # handles form post
-  addTag : (req, res) ->
+  tagSave : (req, res) ->
     tag = new Tag(req.body.tag)
     tag.save ->
-    # /tags route calls showTags
-      res.redirect "/tags"
+      res.redirect "/tag/add"
+      
+## commented-out because item_add.jade inocorporates these via include
+# # passes tags for selection at item create time
+#  itemForm: (req, res) ->
+#    Tag.find {}, (err, tags) ->
+#      res.render "item_form",
+#        tags: tags
+#
+## display items list fragment
+#  items : (req, res) ->
+#    Item.find {}, (err, items) ->
+#        res.render "items",
+#          title: "Items"
+#          items: items
 
-# display tags list fragment
-  showTags : (req, res) ->
-    Tag.find {}, (err, tags) ->
-      res.render "tags",
-        title: "Whitney Lives"
-        tags: tags
- 
- # handles get for form in view/add_tag.jade
- # passes tags for selection at item create time
-  add_item : (req, res) ->
-    Tag.find {}, (err, tags) ->
-      res.render "add_item",
-        title: "New Item"
-        tags: tags
+# show page to add items
+  itemAdd : (req, res) ->
+    Item.find {}, (err, items) ->
+      if ! items?
+         items = []
+      Tag.find {}, (err, tags) ->
+        if ! tags?
+          tags = []
+        res.render "item_add",
+          title: "Now we're adding items."
+          tags: tags
+          items: items 
 
 
 # handles form post
-  addItem : (req, res) ->
+  itemSave : (req, res) ->
     item = new Item(req.body.item)
     item.tags[item.tags.length] = req.body.tag
-#    item.cats.push req.body.cat
     item.save ->
-      # /items route calls showItems 
-      res.redirect "/items"
-
-# display items list fragment
-  showItems : (req, res) ->
-    Item.find {}, (err, items) ->
-        res.render "items",
-          title: "Some items"
-          items: items
+      res.redirect "/item/add"

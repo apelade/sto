@@ -27,14 +27,19 @@ app.configure "production", ->
     
 app.get  "/", route.index
 app.get  "/index", route.index
+# some routes commented out as unused by public or route index.coffee
+# tagAdd now includes tags and tagForm
+#app.get  "/tags"      , route.tags
+#app.get  "/tag/form"  , route.tagForm
+app.get  "/tag/add"   , route.tagAdd
+app.post "/tag/save"  , route.tagSave
+#app.get  "/tag/:id"   , route.tagById
 
-app.get  "/tags", route.showTags
-app.get  "/add_tag", route.add_tag
-app.post "/tag/new", route.addTag
-
-app.get  "/items", route.showItems
-app.get  "/add_item", route.add_item
-app.post "/item/new", route.addItem
+#app.get  "/items"     , route.items
+#app.get  "/item/form" , route.itemForm
+app.get  "/item/add"  , route.itemAdd
+app.post "/item/save" , route.itemSave
+#app.get "/item/:name", route.itemByName
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
