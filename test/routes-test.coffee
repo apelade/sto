@@ -1,7 +1,7 @@
 routes = require "../route/index"
 mongoose = require "mongoose"
-shouldpkg = require "should"
 Tag = require "../model/Tag"
+should = require "should"
 Item = require "../model/Item"
 CONNECT_STR = "mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb"
 mongoose.connect CONNECT_STR
@@ -23,68 +23,44 @@ describe "route", ->
 #          vars.items.should.eql []
       routes.index(req, res)
 
-  describe "tags", ->
-    it "should display Tags", ->
-      req = null
-      res = 
-        render: (view, vars) ->
-          view.should.equal "tags"
-      routes.showTags(req, res)
-  
   describe "add tag", ->
     it "should data entry form for Tags", ->
       res = 
         render: (view, vars) ->
-          view.should.equal "add_tag"
+          view.should.equal "tag_add"
   
-  describe "save tag", ->
+  describe "tagSave", ->
     it "should save a Tag to the db", (done)->
       req = 
         params: {}
         body: {}
-      
-      name = "gabbytables" + Date.now()
+      name = "tagtestyy-" + Date.now()
       req.body.tag =
-        name: name
+        name : name
         
-      routes.addTag req, redirect: (route) ->
-        route.should.eql "/tags"
-        routes.showTags req, render: (view, vars) ->
-          view.should.equal "tags"
-          vars.tags[vars.tags.length-1].name.should.equal name
-          Tag.findOne({name:name}, (err, tag) ->
-            tag.name.should.equal name
-            console.log "\nTag " + name + " was added to db."
-            Tag.remove(tag, (err,res) ->
-              console.log err if err?
-              Tag.findById(tag._id, (err, tagfound) ->
-                shouldpkg.not.exist(tagfound)
-                console.log "Remove. Tag in db after remove? " + tagfound?
-                done()
-              )
-            ))
-              
-              
-  describe "items", ->
-    it "should display Items", ->
-      req = null
-      res = 
-        render: (view, vars) ->
-          view.should.equal "items"
-      routes.showItems(req, res)
+      routes.tagSave req, redirect: (route) ->
+        Tag.findOne {name:name}, (err, tag) ->
+          if(tag.name.should.equal name)
+            console.log "\nItem " + name + "added to db."
+          Tag.remove tag, (err,res) ->
+            console.log err if err?
+            Tag.findById tag._id, (err, tagfound) ->
+              should.not.exist(tagfound)
+              console.log "Remove. Item in db after remove? " + tagfound?
+              done()
 
   describe "add item", ->
     it "should data entry form for Items", ->
       res = 
         render: (view, vars) ->
-          view.should.equal "add_item"
+          view.should.equal "item_add"
   
-  describe "save item", ->
+  describe "itemSave", ->
     it "should save an Item to the db", (done)->
       req = 
         params: {}
         body: {}
-      name = "itemidiom" + Date.now()
+      name = "itemtestxxxxxxxx-" + Date.now()
       req.body.item =
         tags  : []
         name  : name
@@ -92,20 +68,17 @@ describe "route", ->
         info  : "much more info at cnn.com"
         price : 5000
         
-      routes.addItem req, redirect: (route) ->
-        route.should.eql "/items"
-        routes.showItems req, render: (view, vars) ->
-          view.should.equal "items"
-          vars.items[vars.items.length-1].name.should.equal name        
-          Item.findOne({name:name}, (err, item) ->
-            if(item.name.should.equal name)
-              console.log "\nItem " + name + "added to db."
-            Item.remove(item, (err,res) ->
-              console.log err if err?
-              Item.findById(item._id, (err, itemfound) ->
-                shouldpkg.not.exist(itemfound)
-                console.log "Remove. Item in db after remove? " + itemfound?
-                done()
-              )
-            ))
+      routes.itemSave req, redirect: (route) ->
+        Item.findOne {name:name}, (err, item) ->
+          if(item.name.should.equal name)
+            console.log "\nItem " + name + "added to db."
+          Item.remove item, (err,res) ->
+            console.log err if err?
+            Item.findById item._id, (err, itemfound) ->
+              should.not.exist(itemfound)
+              console.log "Remove. Item in db after remove? " + itemfound?
+              done()
+
+
+
 

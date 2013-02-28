@@ -27,16 +27,11 @@ app.configure "production", ->
     
 app.get  "/", route.index
 app.get  "/index", route.index
-# some routes commented out as unused by public or route index.coffee
-# tagAdd now includes tags and tagForm
-#app.get  "/tags"      , route.tags
-#app.get  "/tag/form"  , route.tagForm
+
 app.get  "/tag/add"   , route.tagAdd
 app.post "/tag/save"  , route.tagSave
 #app.get  "/tag/:id"   , route.tagById
 
-#app.get  "/items"     , route.items
-#app.get  "/item/form" , route.itemForm
 app.get  "/item/add"  , route.itemAdd
 app.post "/item/save" , route.itemSave
 #app.get "/item/:name", route.itemByName
