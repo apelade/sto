@@ -60,7 +60,7 @@ Sto: {
 	
 	route/  : routing files (called from app.coffee)
 	
-	test/   : (mocha and should) test files - all files in dir
+	test/   : (mocha and should) test files in tests.coffee
 	
 	view/   : (jade) view templates directory
   }
