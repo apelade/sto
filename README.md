@@ -1,7 +1,7 @@
 ## Sto!
 
-						All-CoffeeScript project in c9.io IDE
-					Multi-platform including c9.io, linux, Windows
+						All-CoffeeScript Node.js project in c9.io IDE
+					Multi-platform including c9.io, Linux, Windows
 							Fresh Libs  ~  Freely Hosted
 
 ### Install __`cake install` or `npm install`__
@@ -23,6 +23,8 @@
 	
 ### Run __`cake server` or `coffee app.coffee`__
 
+- Running another server on that port?
+- http://localhost:3000
 
 
 
