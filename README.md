@@ -1,34 +1,32 @@
-#### About ####
+## Sto!
 
-Bleeding edge, all CoffeeScript project in c9.io IDE. Freely hosted.
-Multi-platform including c9.io, linux, Windows.
+						All-CoffeeScript project in c9.io IDE
+					Multi-platform including c9.io, linux, Windows
+							Fresh Libs  ~  Freely Hosted
 
+### Install __`cake install` or `npm install`__
 
-
-#### Install ####
-
-__`cake install` or `npm install`__
-
-Size: Less than 6 MB with libs at this point.
+- Size: Less than 6 MB with libs at this point.
 - Node and npm are required: download and install from http://nodejs.org/
 - Unzip to a location or checkout from github. You may need to be admin.
-- On a command prompt, cd there, to directory 'sto' to run this command.
-	
+- On a command prompt, run this command in the install dir to fetch libraries.
 
 
-#### Test ####
-__`cake test`__
 
-Startup args in the Cakefile configure testing options,
-	
-	
-	
-#### Run ####
-__`cake server` or `coffee app.coffee`__
+
+### Test __`cake test`__
+
+- Startup args in the Cakefile configure testing options
+
+
 
 	
-	
-#### Dependency ####
+### Run __`cake server` or `coffee app.coffee`__
+
+
+
+
+### Dependency ###
 - Node and npm to install packages list in sto/package.json
 - CoffeeScript, although it does compile to js so node could run it instead
 - Express web server
@@ -36,17 +34,19 @@ __`cake server` or `coffee app.coffee`__
 - Jade view templates
 - Mocha and Should, some kind of load tester
 - Trying a shared mongod, Dharma 2.3 Experimental from http://mongohq.com, 512 MB
-	
+
+
 
 	
-#### Resource ####
+### Resource ###
 - cloudnine: http://sto.apelade.c9.io
 - github: http://github.com/apelade/sto
 - mongohq: mongodb://sto_user:*******@linus.mongohq.com:10083/mdbt 
 	
-	
 
-#### File ####
+
+
+### File ###
 	
 	Cakefile		: command runner
 	  
