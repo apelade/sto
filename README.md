@@ -3,6 +3,8 @@
 Bleeding edge, all CoffeeScript project in c9.io IDE. Freely hosted.
 Multi-platform including c9.io, linux, Windows.
 
+
+
 #### Install ####
 
 __`cake install` or `npm install`__
@@ -12,15 +14,19 @@ Size: Less than 6 MB with libs at this point.
 - Unzip to a location or checkout from github. You may need to be admin.
 - On a command prompt, cd there, to directory 'sto' to run this command.
 	
+
+
 #### Test ####
 __`cake test`__
 
 Startup args in the Cakefile configure testing options,
 	
 	
+	
 #### Run ####
 __`cake server` or `coffee app.coffee`__
 
+	
 	
 #### Dependency ####
 - Node and npm to install packages list in sto/package.json
@@ -31,6 +37,7 @@ __`cake server` or `coffee app.coffee`__
 - Mocha and Should, some kind of load tester
 - Trying a shared mongod, Dharma 2.3 Experimental from http://mongohq.com, 512 MB
 	
+
 	
 #### Resource ####
 - cloudnine: http://sto.apelade.c9.io
@@ -38,6 +45,7 @@ __`cake server` or `coffee app.coffee`__
 - mongohq: mongodb://sto_user:*******@linus.mongohq.com:10083/mdbt 
 	
 	
+
 #### File ####
 	
 	Cakefile		: command runner
