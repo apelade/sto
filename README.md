@@ -4,7 +4,8 @@
 					Multi-platform including c9.io, Linux, Windows
 							Fresh Libs  ~  Freely Hosted
 
-### Install __`cake install` or `npm install`__
+### Install
+__`cake install` or `npm install`__
 
 - Size: Less than 6 MB with libs at this point.
 - Node and npm are required: download and install from http://nodejs.org/
@@ -14,17 +15,19 @@
 
 
 
-### Test __`cake test`__
+### Test
+__`cake test`__
 
 - Startup args in the Cakefile configure testing options
 
 
 
 	
-### Run __`cake server` or `coffee app.coffee`__
+### Run
+__`cake server` or `coffee app.coffee`__
 
 - Running another server on that port?
-- http://localhost:3000
+- Go to [http://localhost:3000](http://localhost:3000)
 
 
 
