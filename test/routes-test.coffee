@@ -13,8 +13,9 @@ res =
     # do nothing
       
 describe "route", ->
+
   describe "index", ->
-    it "should display index page with items", ->
+    it "should show index page with items", ->
       req = null
       res = 
         render: (view, vars) ->
@@ -25,10 +26,12 @@ describe "route", ->
 
   describe "add tag", ->
     it "should data entry form for Tags", ->
-      res = 
+      req = {}
+      res =
         render: (view, vars) ->
-          view.should.equal "tag_add"
-  
+          view.should.equal "tag_add"        
+      routes.tagAdd(req, res)
+
   describe "tagSave", ->
     it "should save a Tag to the db", (done)->
       req = 
@@ -37,26 +40,28 @@ describe "route", ->
       name = "tagtestyy-" + Date.now()
       req.body.tag =
         name : name
-        
+
       routes.tagSave req, redirect: (route) ->
         Tag.findOne {name:name}, (err, tag) ->
-          if(tag.name.should.equal name)
-            console.log "\nItem " + name + "added to db."
-          Tag.remove tag, (err,res) ->
-            console.log err if err?
-            Tag.findById tag._id, (err, tagfound) ->
-              should.not.exist(tagfound)
-              console.log "Remove. Item in db after remove? " + tagfound?
-              done()
+          if tag.name.should.equal name
+#            console.log "\nItem " + name + "added to db."
+            Tag.remove tag, (err,res) ->
+  #            console.log err if err?
+              Tag.findById tag._id, (err, tagfound) ->
+                should.not.exist(tagfound)
+#                console.log "Remove. Item in db after remove? " + tagfound?
+                done()
 
   describe "add item", ->
-    it "should data entry form for Items", ->
+    it "should show entry form for Items", ->
+      req = {}
       res = 
         render: (view, vars) ->
           view.should.equal "item_add"
-  
-  describe "itemSave", ->
-    it "should save an Item to the db", (done)->
+      routes.itemAdd(req, res)
+
+  describe "itemSave", (done)->
+    it "should save an Item to the db", ->
       req = 
         params: {}
         body: {}
@@ -67,17 +72,17 @@ describe "route", ->
         model : "fashion"
         info  : "much more info at cnn.com"
         price : 5000
-        
+
       routes.itemSave req, redirect: (route) ->
         Item.findOne {name:name}, (err, item) ->
-          if(item.name.should.equal name)
-            console.log "\nItem " + name + "added to db."
-          Item.remove item, (err,res) ->
-            console.log err if err?
-            Item.findById item._id, (err, itemfound) ->
-              should.not.exist(itemfound)
-              console.log "Remove. Item in db after remove? " + itemfound?
-              done()
+          if item.name.should.equal name
+#            console.log "\nItem " + name + "added to db."
+            Item.remove item, (err,res) ->
+  #              console.log err if err?
+              Item.findById item._id, (err, itemfound) ->
+                should.not.exist(itemfound)
+  #              console.log "Remove. Item in db after remove? " + itemfound?
+                done()
 
 
 
