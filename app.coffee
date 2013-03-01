@@ -1,9 +1,27 @@
 mongoose = require "mongoose"
 express = require "express"
-route = require "./route"
+fs = require "fs"
+route = require "./route/"
+# todo:1
+route_tag = require "./route/tag.coffee"
+route_item = require "./route/item.coffee"
+
+
+#fs.readdir (__dirname + '/route/'), (err,files)->
+#  files = 
+#  flen = files.length
+#  while flen-- > 0
+#      file = files[i]
+#      dot = file.lastIndexOf('.')
+#      if file.substr(dot + 1) is 'coffee'
+#         name = file.substr(0, dot)
+#         require('./routes/' + name)(app, argv)  
+
 http = require "http"
 path = require "path"
 app = express()
+
+
 app.configure ->
   app.set "port", process.env.PORT or 3000
   app.set "host", process.env.IP or "localhost"
@@ -28,12 +46,15 @@ app.configure "production", ->
 app.get  "/", route.index
 app.get  "/index", route.index
 
-app.get  "/tag/add"   , route.tagAdd
-app.post "/tag/save"  , route.tagSave
+#console.log route
+#app.get  "/route/tag/add", route.tag.add
+
+app.get  "/tag/add"   , route_tag.add
+app.post "/tag/save"  , route_tag.save
 #app.get  "/tag/:id"   , route.tagById
 
-app.get  "/item/add"  , route.itemAdd
-app.post "/item/save" , route.itemSave
+app.get  "/item/add"  , route_item.add
+app.post "/item/save" , route_item.save
 #app.get "/item/:name", route.itemByName
 
 http.createServer(app).listen app.get("port"), ->

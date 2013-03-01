@@ -13,7 +13,7 @@ s = path.sep
 NPM = "npm"
 bin = ".#{s}node_modules#{s}.bin"
 MOCHA  = "#{bin}#{s}mocha"
-REPORTER = "json-stream"
+REPORTER = "json-cov"
 COFFEE = "#{bin}#{s}coffee"
 RUNFILE = "app.coffee"
 
@@ -30,8 +30,10 @@ task "test", "run tests", ->
   process.env["NODE_ENV"] = "test"
   exec "
     #{MOCHA}
+    --timeout 4000
     --compilers coffee:coffee-script
     --reporter #{REPORTER}
+    --growl
     --require coffee-script 
     --colors
   ", (err, output) ->
