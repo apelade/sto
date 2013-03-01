@@ -1,0 +1,10 @@
+block cart
+  #cartDiv The div is this
+  append scripts
+  script(type='text/javascript', src='http://code.jquery.com/jquery-1.6.2.min.js')
+  script(type='text/javascript', src='../script/cart.js')
+  script(type='text/javascript')
+    cartDiv.innerHTML = renderCart();
+    addCartItem(99, "tat", "Gramino", "Green2050", "GR50", 1234.50);
+    addCartItem(55,"too","Whizbang","Gollysicle","tensoric",20.20);
+
