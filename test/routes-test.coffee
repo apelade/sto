@@ -37,7 +37,7 @@ describe "route", ->
       req = 
         params: {}
         body: {}
-      name = "tagtestyy-" + Date.now()
+      name = "tagtest-" + Date.now()
       req.body.tag =
         name : name
 
@@ -65,7 +65,7 @@ describe "route", ->
       req = 
         params: {}
         body: {}
-      name = "itemtestxxxxxxxx-" + Date.now()
+      name = "itemtest-" + Date.now()
       req.body.item =
         tags  : []
         name  : name
