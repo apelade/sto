@@ -2,23 +2,9 @@ mongoose = require "mongoose"
 express = require "express"
 fs = require "fs"
 route = require "./route/"
-# todo:1
-route_tag = require "./route/tag.coffee"
-route_item = require "./route/item.coffee"
-
-
-#fs.readdir (__dirname + '/route/'), (err,files)->
-#  files = 
-#  flen = files.length
-#  while flen-- > 0
-#      file = files[i]
-#      dot = file.lastIndexOf('.')
-#      if file.substr(dot + 1) is 'coffee'
-#         name = file.substr(0, dot)
-#         require('./routes/' + name)(app, argv)  
-
 http = require "http"
 path = require "path"
+fs = require "fs"
 app = express()
 
 
@@ -44,18 +30,29 @@ app.configure "production", ->
   app.use express.errorHandler()
     
 app.get  "/", route.index
+
 app.get  "/index", route.index
 
-#console.log route
-#app.get  "/route/tag/add", route.tag.add
+# Include default routes for mongoose models in models dir
+fs.readdir (__dirname + '/model/'), (err,files) ->
 
-app.get  "/tag/add"   , route_tag.add
-app.post "/tag/save"  , route_tag.save
-#app.get  "/tag/:id"   , route.tagById
+  # What we look for in the models, our interface, with request type
+  iModel =
+    add:"get",
+    save:"post"
 
-app.get  "/item/add"  , route_item.add
-app.post "/item/save" , route_item.save
-#app.get "/item/:name", route.itemByName
+  try
+    for file in files
+      words = file.split "."    
+      if words?[1] is "coffee"
+        modelName = words[0].toLowerCase()
+        modelObj = require "./route/"+modelName+".coffee"
+        for funcName of iModel
+          # post or get
+          reqMethName = iModel[funcName]
+          app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
+  catch err
+    console.log err if err?
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
