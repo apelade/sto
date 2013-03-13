@@ -3,5 +3,5 @@
   br
   | Price: #{item.price}
   | Details: #{item.info}
-  input(type="button", value="Buy", onclick="addItem('#{item._id}', '#{item.name}' ,'#{item.model}' ,'#{item.info}' ,#{item.price});")
+  input(type="button", value="Buy", onclick="cart.addItem('#{item._id}', '#{item.name}' ,'#{item.model}' ,'#{item.info}' ,#{item.price});")
   br
