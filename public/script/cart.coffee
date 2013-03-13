@@ -67,22 +67,25 @@ isNumKey = () ->
 # On exit, validate contents, could be from paste or dragndrops
 # If valid, sets item qty directy
 isNumChange = () ->
+  console.log "isNumChange"
   hap = window.event or e
   isNum = false
   value = this.value
   prev = this.defaultValue
 
   if isNormalInteger(value) == false
-    #todo better alert
+    # todo better alert
     this.setAttribute "style", "background-color : #ffaaaa"
     this.value = ""
     this.focus()
   else
     this.setAttribute "style", "background-color : #ffffff"
     cart = isNumChange.cart
-    newCart = cart.setItemQuantity(this.id, this.value)
+    # calls pullCart() at start of function
+    cart.setItemQuantity(this.id, this.value)
       
 bindRowFields = (cart, itemRows) ->
+  console.log "bindRF rows", itemRows
   len = itemRows.length
   rowArray = [len]
   for i in [0..len-1] by 1
@@ -90,13 +93,17 @@ bindRowFields = (cart, itemRows) ->
     # Instead access by childNodes[x] once this file stabilizes
     qtyField = row.getElementsByClassName("quantity")[0]
     bind(qtyField, "keypress", isNumKey)
-    #onpaste clipboard data only available in IE
+    # onpaste clipboard data only available in IE, not using.
     isNumChange["cart"] = cart
     bind(qtyField, "change", isNumChange)
 
+
+# used by refresh, for now todo, get rid of at some pt
+parentDivName = ""
 loadCart = (divName) ->
   cart = new Cart()
   element = cart.getElement()
+  parentDivName = divName
   document.getElementById(divName).appendChild(element);
   bindRowFields(cart, document.getElementsByClassName("itemRow"))
   return cart
@@ -147,10 +154,13 @@ Cart = () ->
     cartObj[id] = cartItem  
     console.log "ITEM == ", cartItem
     pushCart(cartObj)
+    refresh()
     return cartObj
 
   # Called when user changes qty field in cart
   setItemQuantity = (id, quantity) ->
+#    console.log "SET I Q cart == ", cartObj
+
     cartObj = pullCart()
     if cartObj[id]?
       if Number(quantity) == 0 # todo handle maximum limit
@@ -165,6 +175,7 @@ Cart = () ->
         price:price
       cartObj[id]["qty"] = quantity
     pushCart(cartObj)
+    refresh()
     return cartObj
     
   # If id exists as a cart key, and the val is greater than 1, decrement
@@ -248,10 +259,9 @@ Cart = () ->
     table.appendChild(tableBody)
     table.appendChild(tableFoot)
     pc = pullCart()
-    console.log "PULLCART == ", pc
-    for item of pc#just gets the keys
-      obj =  pc[item]["obj"]
-      qty =  pc[item]["qty"]
+    for itemkey of pc#just gets the keys
+      obj =  pc[itemkey]["obj"]
+      qty =  pc[itemkey]["qty"]
       tableBody.appendChild makeRow(obj, qty)
     subtotalRow = document.createElement("TR")
     tdWord = document.createElement("TD")
@@ -267,14 +277,22 @@ Cart = () ->
     return myElement
       
   getElement = () ->
-      return myElement? or initElement()
-    
-       
+    return myElement? or initElement()
+  
+  # todo: rather a blunt instrument here..  
+  refresh = () ->
+    if myElement?
+      document.getElementById(parentDivName).removeChild(myElement);
+      myElement = null
+      document.getElementById(parentDivName).appendChild(initElement());
+      bindRowFields(cart, document.getElementsByClassName("itemRow"))
+      
   # return public methods, otherwise error message is "Object has no method x"
   return {
 #    bind
     addItem
-    setItemQuantity    
+    setItemQuantity
+#    refresh
 #    removeItem
     toString
     getElement

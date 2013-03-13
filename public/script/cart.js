@@ -1,4 +1,4 @@
-var Cart, bind, bindRowFields, formatCurrency, getLocalObject, isNormalInteger, isNumChange, isNumKey, isTypedDigit, loadCart, purgeCart, setLocalObject;
+var Cart, bind, bindRowFields, formatCurrency, getLocalObject, isNormalInteger, isNumChange, isNumKey, isTypedDigit, loadCart, parentDivName, purgeCart, setLocalObject;
 
 if (typeof (typeof Storage !== "undefined" && Storage !== null)) {
   console.log("Yes! localStorage and sessionStorage support!");
@@ -70,7 +70,8 @@ isNumKey = function() {
 };
 
 isNumChange = function() {
-  var cart, hap, isNum, newCart, prev, value;
+  var cart, hap, isNum, prev, value;
+  console.log("isNumChange");
   hap = window.event || e;
   isNum = false;
   value = this.value;
@@ -82,12 +83,13 @@ isNumChange = function() {
   } else {
     this.setAttribute("style", "background-color : #ffffff");
     cart = isNumChange.cart;
-    return newCart = cart.setItemQuantity(this.id, this.value);
+    return cart.setItemQuantity(this.id, this.value);
   }
 };
 
 bindRowFields = function(cart, itemRows) {
   var i, len, qtyField, row, rowArray, _i, _ref, _results;
+  console.log("bindRF rows", itemRows);
   len = itemRows.length;
   rowArray = [len];
   _results = [];
@@ -101,17 +103,20 @@ bindRowFields = function(cart, itemRows) {
   return _results;
 };
 
+parentDivName = "";
+
 loadCart = function(divName) {
   var cart, element;
   cart = new Cart();
   element = cart.getElement();
+  parentDivName = divName;
   document.getElementById(divName).appendChild(element);
   bindRowFields(cart, document.getElementsByClassName("itemRow"));
   return cart;
 };
 
 Cart = function() {
-  var CART, TEST_TOTAL, addItem, getElement, initElement, makeRow, myElement, pullCart, pushCart, setItemQuantity;
+  var CART, TEST_TOTAL, addItem, getElement, initElement, makeRow, myElement, pullCart, pushCart, refresh, setItemQuantity;
   CART = "cart";
   myElement = null;
   pullCart = function() {
@@ -150,6 +155,7 @@ Cart = function() {
     cartObj[id] = cartItem;
     console.log("ITEM == ", cartItem);
     pushCart(cartObj);
+    refresh();
     return cartObj;
   };
   setItemQuantity = function(id, quantity) {
@@ -171,6 +177,7 @@ Cart = function() {
       cartObj[id]["qty"] = quantity;
     }
     pushCart(cartObj);
+    refresh();
     return cartObj;
   };
   makeRow = function(obj, quantity) {
@@ -208,7 +215,7 @@ Cart = function() {
   };
   TEST_TOTAL = 250.00;
   initElement = function() {
-    var item, obj, pc, qty, subtotalRow, table, tableBody, tableFoot, tdCost, tdWord;
+    var itemkey, obj, pc, qty, subtotalRow, table, tableBody, tableFoot, tdCost, tdWord;
     console.log("INIT ELEMENT");
     table = document.createElement("TABLE");
     table.setAttribute("NAME", "cartTable");
@@ -217,10 +224,9 @@ Cart = function() {
     table.appendChild(tableBody);
     table.appendChild(tableFoot);
     pc = pullCart();
-    console.log("PULLCART == ", pc);
-    for (item in pc) {
-      obj = pc[item]["obj"];
-      qty = pc[item]["qty"];
+    for (itemkey in pc) {
+      obj = pc[itemkey]["obj"];
+      qty = pc[itemkey]["qty"];
       tableBody.appendChild(makeRow(obj, qty));
     }
     subtotalRow = document.createElement("TR");
@@ -238,6 +244,14 @@ Cart = function() {
   };
   getElement = function() {
     return (myElement != null) || initElement();
+  };
+  refresh = function() {
+    if (myElement != null) {
+      document.getElementById(parentDivName).removeChild(myElement);
+      myElement = null;
+      document.getElementById(parentDivName).appendChild(initElement());
+      return bindRowFields(cart, document.getElementsByClassName("itemRow"));
+    }
   };
   return {
     addItem: addItem,
