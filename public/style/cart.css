@@ -1,0 +1,25 @@
+
+input.normal  { background-color: #ffffff; }
+input.error { background-color: #ffaaaa; }
+span.normal { display: none; }
+span.error { display: inline;
+             color: red;
+}
+
+A:link {text-decoration: none;font-style: italic;color:white;}
+A:visited {text-decoration: none; color:white;}
+A:active {text-decoration: none}
+A:hover {text-decoration: underline; color: blue;}
+
+#cartDiv{
+    block: inline;
+    padding: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+    border: 2px solid gray;
+    margin: 2px;
+}
+
+input.quantity{
+    width: 3em;
+}

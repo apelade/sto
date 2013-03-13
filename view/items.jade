@@ -1,6 +1,7 @@
 - each item in items
-  h1(style="display:inline") #{item.name}
+  h1(style="display:inline") #{item.model} #{item.name}
   br
   | Price: #{item.price}
-  input(type="button", value="Buy", onclick="addCartItem('#{item._id}', 'teknik', '#{item.name}' ,'','',#{item.price});")
+  | Details: #{item.info}
+  input(type="button", value="Buy", onclick="addItem('#{item._id}', '#{item.name}' ,'#{item.model}' ,'#{item.info}' ,#{item.price});")
   br

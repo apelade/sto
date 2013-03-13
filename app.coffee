@@ -4,7 +4,6 @@ fs = require "fs"
 route = require "./route/"
 http = require "http"
 path = require "path"
-fs = require "fs"
 app = express()
 
 
@@ -30,10 +29,10 @@ app.configure "production", ->
   app.use express.errorHandler()
     
 app.get  "/", route.index
-
 app.get  "/index", route.index
 
 # Include default routes for mongoose models in models dir
+fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
 
   # What we look for in the models, our interface, with request type
