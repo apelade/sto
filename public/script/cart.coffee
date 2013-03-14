@@ -98,15 +98,19 @@ bindRowFields = (cart, itemRows) ->
     bind(qtyField, "change", isNumChange)
 
 
-# used by refresh, for now todo, get rid of at some pt
+# used by refresh,  todo, get rid of at some pt
 parentDivName = ""
-loadCart = (divName) ->
+loadCart = () ->
   cart = new Cart()
   element = cart.getElement()
-  parentDivName = divName
-  document.getElementById(divName).appendChild(element);
+  parentDivName = "cartDiv"
+  document.getElementById(parentDivName).appendChild(element)
   bindRowFields(cart, document.getElementsByClassName("itemRow"))
   return cart
+
+
+bind(document.body, "load", loadCart)
+
 
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
 
