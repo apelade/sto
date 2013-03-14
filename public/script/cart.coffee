@@ -100,16 +100,18 @@ bindRowFields = (cart, itemRows) ->
 
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
+cart = {}
 loadCart = () ->
-  cart = new Cart()
-  element = cart.getElement()
+  acart = new Cart()
+  element = acart.getElement()
   parentDivName = "cartDiv"
   document.getElementById(parentDivName).appendChild(element)
-  bindRowFields(cart, document.getElementsByClassName("itemRow"))
+  bindRowFields(acart, document.getElementsByClassName("itemRow"))
+  cart = acart
   return cart
 
 
-bind(document.body, "load", loadCart)
+bind(window, "load", loadCart)
 
 
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
