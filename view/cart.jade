@@ -1,3 +1,6 @@
 block cart
   #cartDiv The div is carty
-
+  append scripts
+    script(type="text/javascript", src="/script/cart.js")
+    script(type="text/javascript")
+      cart = loadCart();
