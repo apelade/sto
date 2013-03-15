@@ -2,23 +2,7 @@
 html
   head
     title= title
-    
-
-    link(rel="stylesheet", href="/style/bootstrap231.css")
-    
-    // NOTE: navbarpad.css must be linked between bootstrap and responsive
-    link(rel="stylesheet", href="/style/navbarpad.css")
-    
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/style/bootstrap231-responsive.css")
-
-    script(type="text/javascript", src="/script/bootstrap231.js")
-    script(type="text/javascript", src="http://code.jquery.com/jquery.min.js")
-    //style(input#tat.quantity="{font-family:monospace;}")
-
-
-
+    include scripts
   body
 
     .navbar.navbar-inverse.navbar-fluid-top
@@ -30,18 +14,13 @@ html
             li: a(href="/item/add") Add Item
             li: a(href="/tag/add") Add Tag
             li: include cart
-
-
     .container
       .row-fluid
        .content
         .span9
           br
-          br
-          br
-          br
-
           block center
         .span3
           br
           | Hello sidey
+          
