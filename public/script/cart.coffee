@@ -100,18 +100,16 @@ bindRowFields = (cart, itemRows) ->
 
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
-#cart = {}
+
 loadCart = () ->
   acart = new Cart()
   element = acart.getElement()
   parentDivName = "cartDiv"
   document.getElementById(parentDivName).appendChild(element)
   bindRowFields(acart, document.getElementsByClassName("itemRow"))
-#  cart = acart
   return acart
 
 
-#bind(window, "load", loadCart)
 
 
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
@@ -184,7 +182,7 @@ Cart = () ->
     refresh()
     return cartObj
     
-  # If id exists as a cart key, and the val is greater than 1, decrement
+# If id exists as a cart key, and the val is greater than 1, decrement
 #  removeItem = (id) ->
 #    cartObj = pullCart()
 #    if cartObj?[id]? > 0
@@ -304,4 +302,6 @@ Cart = () ->
     getElement
   }
 
-
+cart = {}
+$(document).ready ->
+  cart = loadCart()
