@@ -270,3 +270,4 @@ Cart = () ->
 cart = {}
 $(document).ready ->
   cart = init()
+
