@@ -31,6 +31,14 @@ app.configure "production", ->
 app.get  "/", route.index
 app.get  "/index", route.index
 
+app.get  "/nextTen", route.ajaxNextTen
+  
+  
+#app.post "/nextTen",  ->
+#  console.log "POST nextTen"
+#  return []
+#  
+  
 # Include default routes for mongoose models in models dir
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->

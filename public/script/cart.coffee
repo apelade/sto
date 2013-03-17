@@ -4,46 +4,10 @@
 
 # records look like this, with cart[id] == obj[id]
 # cartObj[id]:{obj:{}, qty:num}
-
-#### Util #####
-
-if typeof(Storage)?
-  console.log "Yes! localStorage and sessionStorage support!"
-else
-  console.log "Sorry! No web storage support"
-
-# Don't mess with Storage prototypes, delegate
-setLocalObject = (key, val) ->
-  localStorage.setItem(key, JSON.stringify(val))
-
-getLocalObject = (key) ->
-  val = localStorage.getItem(key)
-  return val && JSON.parse(val)
-
-bind = (el, evt, func) ->
-  console.log("Binder: ", el, evt, func)
-  if el.addEventListener
-    return el.addEventListener(evt, func, false)
-  else if el.attachEvent
-    return el.attachEvent("on"+evt, func)      
+# Depends on /script/util.js
 
 purgeCart = () ->
   localStorage.setItem "cart", JSON.stringify({})
-  
-formatCurrency = (num) ->
-  num = (if isNaN(num) or num is "" or num is null then 0.00 else num)
-  return "$ " + parseFloat(num).toFixed 2
-  
-isTypedDigit = (charCode) ->
-  keyChar = String.fromCharCode(charCode)
-  if "0123456789".indexOf(keyChar) > -1
-    return true
-  else
-    return false 
-    
-isNormalInteger = (str) ->
-    n = ~~Number(str);
-    return String(n) == str && n >= 0
 
 #### Validation ####
 # Both these functions are args to bind(), inner functions called by listeners
@@ -101,9 +65,10 @@ bindRowFields = (cart, itemRows) ->
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
 
-loadCart = () ->
+init = () ->
   acart = new Cart()
   element = acart.getElement()
+  # todo hardcoded parent
   parentDivName = "cartDiv"
   document.getElementById(parentDivName).appendChild(element)
   bindRowFields(acart, document.getElementsByClassName("itemRow"))
@@ -304,4 +269,5 @@ Cart = () ->
 
 cart = {}
 $(document).ready ->
-  cart = loadCart()
+  cart = init()
+
