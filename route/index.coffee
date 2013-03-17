@@ -40,7 +40,7 @@ module.exports =
     skip = page * limit  
     Tag.find {},{},{"skip":skip, "limit":limit}, (err, tags) ->
       console.log err if err?
-      console.log "ajaxGetTen skip limit == ", skip, limit
+      console.log "ajaxNextTen skip limit == ", skip, limit
       returnObject = tags
       returnObjectString = JSON.stringify(returnObject)
       res.writeHead(200, {'Content-Type': 'text/plain'})
