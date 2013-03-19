@@ -1,7 +1,10 @@
 block catalog
   #catalogDiv Catalog
+  link(rel="stylesheet", href="/style/catalog.css")  
   script(type="text/javascript", src="/script/util.js")
+  // insert res items into javascript scope
   script
-    console.log("ITEMS isssss....  ......");
-    var items = !{JSON.stringify(items)}; 
+    if ( typeof(items) !== "undefined" ){
+      var items = !{JSON.stringify(items)};
+    }
   script(type="text/javascript", src="/script/catalog.js")

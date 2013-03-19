@@ -1,10 +1,8 @@
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
 ## IF NOT ERROR IS Cart is not defined
-
-
 # records look like this, with cart[id] == obj[id]
 # cartObj[id]:{obj:{}, qty:num}
-# Depends on /script/util.js
+# Depends on: /script/util.js
 
 purgeCart = () ->
   localStorage.setItem "cart", JSON.stringify({})
@@ -12,7 +10,6 @@ purgeCart = () ->
 #### Validation ####
 # Both these functions are args to bind(), inner functions called by listeners
 # So, return values can't be used, yet.
-
 # Only allow user to enter numbers
 isNumKey = () ->
   console.log "Key Press"
@@ -26,7 +23,6 @@ isNumKey = () ->
       hap.preventDefault()
     else
       hap.returnValue = false #IE
-
 
 # On exit, validate contents, could be from paste or dragndrops
 # If valid, sets item qty directy
@@ -54,13 +50,12 @@ bindRowFields = (cart, itemRows) ->
   rowArray = [len]
   for i in [0..len-1] by 1
     row = itemRows[i]
-    # Instead access by childNodes[x] once this file stabilizes
+    # ifccess by childNodes[x] once this file stabilizes
     qtyField = row.getElementsByClassName("quantity")[0]
     bind(qtyField, "keypress", isNumKey)
     # onpaste clipboard data only available in IE, not using.
     isNumChange["cart"] = cart
     bind(qtyField, "change", isNumChange)
-
 
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
@@ -75,21 +70,15 @@ init = () ->
   return acart
 
 
-
-
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
-
-#### Cart ####
+#### Cart Class ####
 
 Cart = () ->
-    
-    
+
   CART = "cart"
   myElement = null
   
   pullCart = () ->
-#    purgeCart()
-#    return {}
     localCart = getLocalObject(CART)
     if localCart?
       return localCart
@@ -99,9 +88,8 @@ Cart = () ->
     setLocalObject(CART, cartObj)
     #return pullCart 
   
-  # If id exists as a cart key, the val is incremented, or else initialized to 1
+  # If id exists as a cart key, the val is incremented, else initialized to 1
   addItem = (id, name, model, info, price) ->
-#    purgeCart()
     cartObj = pullCart()
     console.log "ADD ITEM cart ", pullCart()
     # cart stores items by key = item.id
@@ -128,14 +116,12 @@ Cart = () ->
 
   # Called when user changes qty field in cart
   setItemQuantity = (id, quantity) ->
-#    console.log "SET I Q cart == ", cartObj
-
     cartObj = pullCart()
     if cartObj[id]?
       if Number(quantity) == 0 # todo handle maximum limit
         delete cartObj[id]
       else
-        cartObj[id][qty] = Number(quantity)
+        cartObj[id]["qty"] = Number(quantity)
     else # (! cartObj[id]?)
       cartObj[id]["obj"] =
         name:name
@@ -146,42 +132,8 @@ Cart = () ->
     pushCart(cartObj)
     refresh()
     return cartObj
-    
-# If id exists as a cart key, and the val is greater than 1, decrement
-#  removeItem = (id) ->
-#    cartObj = pullCart()
-#    if cartObj?[id]? > 0
-#      if cartObj[id][qty] == 1
-#        delete cartObj[id]
-#      else
-#        cartObj[id][qty] = Number(cartObj[id][qty]) - 1
-#      pushCart(cartObj)
-#    else
-#      console.log "Tried to remove non-existent cart item."
-#      console.log "Id with brackets flanking it: >>>" + id + "<<<"
-#    return cartObj
-#
-#  toString = () ->
-#    return localStorage.getItem(CART)
-    
-    
-  # TEST DEV ONLY REPLACE WITH REALS   
-#  price = 5.259
-#  cat = "cat"
-#  abbr = "abbr"
-#  name = "name"
-  
-  #{item._id}', '#{item.name}' ,'#{item.model}' ,'#{item.info}' ,#{item.price}
-  makeRow = (obj, quantity) ->
-    
-#    console.log "OBJ makey is ", obj
-    console.log obj.id
-    console.log obj.name
-    console.log obj.model
-    console.log obj.info
-    console.log obj.price
-#    return null
-#    
+ 
+  makeRow = (obj, quantity) -> 
     #todo: check obj fields exist
     tr = document.createElement("TR")
     tr.setAttribute "ID", "tr"+obj.id
@@ -200,48 +152,58 @@ Cart = () ->
     tr.appendChild td3
       
     td4 = document.createElement("TD")
-#      td5.align = "right"
     td4.appendChild document.createTextNode(formatCurrency(obj.price))
+    td4.align = "left"
     tr.appendChild td4
 
-    td5 = document.createElement("INPUT")
+    td5 = document.createElement("TD")
+    qtyField = document.createElement("INPUT")
     qtyFieldSize = "3"
-    td5.setAttribute "SIZE", qtyFieldSize
-    td5.setAttribute "MAXLENGTH", qtyFieldSize
-    td5.setAttribute "TYPE", "text"
-    td5.setAttribute "CLASS", "quantity" 
-    td5.setAttribute "ID", obj.id
-#      td5.setAttribute("style", "font-family: Courier New, monospace;")
-    td5.setAttribute "VALUE", quantity
+    qtyField.setAttribute "SIZE", qtyFieldSize
+    qtyField.setAttribute "MAXLENGTH", qtyFieldSize
+    qtyField.setAttribute "TYPE", "text"
+    qtyField.setAttribute "CLASS", "quantity" 
+    qtyField.setAttribute "ID", obj.id
+    qtyField.setAttribute "VALUE", quantity
+    td5.appendChild(qtyField)
     tr.appendChild td5
     
+    td6 = document.createElement("TD")
+    lineTotal = Number(obj.price) * Number(quantity)
+    td6.appendChild document.createTextNode(formatCurrency(lineTotal))
+    td6.align = "right"
+    tr.appendChild td6
     return tr
   
-  
-  TEST_TOTAL = 250.00  
   initElement = ->
+    totalCost = 0
+    totalQty = 0
     console.log("INIT ELEMENT")
     table = document.createElement("TABLE")
     table.setAttribute "NAME", "cartTable"
     tableBody = document.createElement("TBODY")
     tableFoot = document.createElement("TFOOT")
     table.appendChild(tableBody)
-    table.appendChild(tableFoot)
+    # table.appendChild(tableFoot) removed -- no .colspan
     pc = pullCart()
-    for itemkey of pc#just gets the keys
-      obj =  pc[itemkey]["obj"]
-      qty =  pc[itemkey]["qty"]
-      tableBody.appendChild makeRow(obj, qty)
+    for itemkey of pc
+      obj = pc[itemkey]["obj"]
+      qty = pc[itemkey]["qty"]
+      if obj? && qty? && obj.price?
+        tableBody.appendChild makeRow(obj, qty)
+        totalCost += (Number(qty) * Number(obj.price))
+        totalQty += Number(qty)
     subtotalRow = document.createElement("TR")
     tdWord = document.createElement("TD")
-    tdWord.colspan = "4";
-    tdWord.align = "right"
-    tdWord.appendChild document.createTextNode("Subtotal")
+    tdWord.setAttribute("colspan","5")
+    tdWord.setAttribute("align", "right")
+    tdWord.appendChild document.createTextNode(" " + totalQty + " items :  ")
     tdCost = document.createElement("TD")
-    tdCost.appendChild document.createTextNode(formatCurrency(TEST_TOTAL))
+    tdCost.setAttribute("align", "left")
+    tdCost.appendChild document.createTextNode(formatCurrency(totalCost))
     subtotalRow.appendChild tdWord
     subtotalRow.appendChild tdCost
-    tableFoot.appendChild subtotalRow
+    tableBody.appendChild subtotalRow
     myElement = table
     return myElement
       
@@ -258,11 +220,8 @@ Cart = () ->
       
   # return public methods, otherwise error message is "Object has no method x"
   return {
-#    bind
     addItem
     setItemQuantity
-#    refresh
-#    removeItem
     toString
     getElement
   }
@@ -270,4 +229,3 @@ Cart = () ->
 cart = {}
 $(document).ready ->
   cart = init()
-

@@ -1,0 +1,37 @@
+form(method="post", action="/user/save")
+  fieldset
+    legend="Add A User"
+    .clearfix
+      label(for="login")
+        b Login
+      .input
+        input.xlarge#title(type="text", name="user[login]")
+    .clearfix
+      label(for="password")
+        b Password
+      .input
+        input.xlarge#title(type="password", name="user[password]")
+    .clearfix
+      label(for="repeatPassword")
+        b Repeat Password
+      .input
+        input.xlarge#title(type="password", name="repeatPassword")
+    .clearfix
+      label(for="name")
+        b Name
+      .input
+        input.xlarge#title(type="text", name="user[name]")
+    .clearfix
+      label(for="email")
+        b Email
+      .input
+        input.xlarge#title(type="text", name="user[email]")
+    .clearfix
+      label(for="phone")
+        b Phone
+      .input
+        textarea#post.xxlarge(name="user[phone]",rows="3")
+    .actions
+      input.btn.primary(type="submit", value="Add User")
+      |   
+      a.btn(href="") Cancel

@@ -1,0 +1,6 @@
+/* 
+   Style catalog.coffee component
+*/
+div.catItemDiv{
+    border: 20px solid black;
+}

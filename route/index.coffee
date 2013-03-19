@@ -5,10 +5,6 @@
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 
-
-#paginate = (model, page, numShown) ->
-#  model.find( { skip: (page * numShown), limit: numShown }, (err, results) { ... });
-
 module.exports =
   
 # home index page
@@ -23,12 +19,8 @@ module.exports =
           title: "The Whitney Portal"
           tags: tags
           items: items 
-
-  
-
     
-# deliver some ajax data caller:
-  
+# deliver some ajax data caller: catalog.coffee
   ajaxNextTen: (req, res) ->
     # add pg, per to req.params
     query = req.query
@@ -38,7 +30,7 @@ module.exports =
     if query["limit"]?
       limit = Number(query["limit"])
     skip = page * limit  
-    Tag.find {},{},{"skip":skip, "limit":limit}, (err, tags) ->
+    Item.find {},{},{"skip":skip, "limit":limit}, (err, tags) ->
       console.log err if err?
       console.log "ajaxNextTen skip limit == ", skip, limit
       returnObject = tags
