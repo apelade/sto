@@ -55,7 +55,9 @@ __`cake server` or `coffee app.coffee`__
 	
 	Cakefile		: command runner
 	  
-	app.coffee		: entry point and config for running the (express) server  	
+	app.coffee		: entry point and config for running the (express) server
+
+    cloudnine-start.js : bootstrap launcher file to run (coffeescript) on c9.io  	
 	  
 	packages.json	: (npm) dependency file list
 		
