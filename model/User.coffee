@@ -11,5 +11,11 @@ User = new mongoose.Schema(
   phone   : String
 )
 
+
+# can enforce pass hashing on save, or validate with pre's
+User.pre "save", (next) ->
+  console.log "pre save"
+  next()
+
 # todo Ensure unique index on the date for next previous
 module.exports = mongoose.model 'User', User

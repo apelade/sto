@@ -6,10 +6,8 @@ initCat = () ->
   return catalog
 
 Catalog = () ->
-  
   page = -1
   limit = 10
-  
   # todo hardcoded parent
   parent = document.getElementById "catalogDiv" 
   parent.appendChild document.createTextNode " Page:"
@@ -46,22 +44,20 @@ Catalog = () ->
     itemDiv.appendChild(document.createElement("BR"))
     itemDiv.appendChild(itemBtn)
     resultsDiv.appendChild(itemDiv)
-
-  # ajax straight to db call, need some coalesce/dos prevention
-  # or just have established options in cache 10/page 25/page served by nginx
   
-  addItems = (items )->
+  addItems = (items)->
     resultsDiv.innerHTML = ""
     for item in items
-      addItemDiv( item )
-  
+      addItemDiv(item)
+ 
+  # ajax straight to db call, need some coalesce/dos prevention
+  # or just have established options in cache 10/page 25/page served by nginx 
   fetchPage = () ->
     $.get "nextTen",{page:page, limit:limit}, (data) ->
       if data != "[]"
         pageField.value = page
         addItems JSON.parse(data)
       else # wrap
-        # if we got nothing on page zero, give up
         if page == 0
           msg =  "Got nothing on page zero, giving up"
           console.log msg
