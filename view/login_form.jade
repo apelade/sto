@@ -1,0 +1,17 @@
+form(method="post", action="/login")
+  fieldset
+    legend="Log in"
+    .clearfix
+      label(for="login")
+        b Login
+      .input
+        input.xlarge#title(type="text", name="login")
+    .clearfix
+      label(for="password")
+        b Password
+      .input
+        input.xlarge#title(type="password", name="password")
+    .actions
+      input.btn.primary(type="submit", value="Log In")
+      |   
+      a.btn(href="") Cancel

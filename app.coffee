@@ -6,7 +6,6 @@ http = require "http"
 path = require "path"
 app = express()
 
-
 app.configure ->
   app.set "port", process.env.PORT or 3000
   app.set "host", process.env.IP or "localhost"
@@ -14,6 +13,8 @@ app.configure ->
   app.set "view engine", "jade"
   app.use express.bodyParser()
   app.use express.methodOverride()
+  app.use express.cookieParser()
+  app.use express.session({ secret: 'chamwosley chirrupkas' })
   app.use app.router
   app.use express["static"](__dirname + "/public")
 
@@ -27,27 +28,30 @@ app.configure "development", ->
 app.configure "production", ->
   mongoose.connect 'mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb-prod'
   app.use express.errorHandler()
-    
-app.get  "/", route.index
-app.get  "/index", route.index
 
+checkUser = (req,res,next) ->
+  console.log "ROUTE: " , req.route
+  if !req.session?.user_id?
+    res.render "login_redirect_form",
+      origPath : req.route.path
+  else
+    next()
+  
+app.get  "/", checkUser, route.index
+app.get  "/index", route.index
 app.get  "/nextTen", route.ajaxNextTen
-  
-  
-#app.post "/nextTen",  ->
-#  console.log "POST nextTen"
-#  return []
-#  
-  
+app.get  "/login", route.login_form
+app.post "/login", route.login
+app.get  "/loginPath/*:path?", route.login_redirect_form
+app.post "/loginPath/*:path?", route.login_redirect
+
 # Include default routes for mongoose models in models dir
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
-
   # What we look for in the models, our interface, with request type
   iModel =
     add:"get",
     save:"post"
-
   try
     for file in files
       words = file.split "."    
@@ -57,7 +61,7 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         for funcName of iModel
           # post or get
           reqMethName = iModel[funcName]
-          app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
+          app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
   catch err
     console.log err if err?
 
