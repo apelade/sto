@@ -1,8 +1,8 @@
 ## Sto!
 
 						All-CoffeeScript Node.js project in c9.io IDE
-					Multi-platform including c9.io, Linux, Windows
-							Fresh Libs  ~  Freely Hosted
+                        Multi-platform including c9.io, Linux, Windows
+                              Fresh Libs  ~  Freely Hosted
 
 ### Install
 __`cake install` or `npm install`__
@@ -26,7 +26,7 @@ __`cake test`__
 ### Run
 __`cake server` or `coffee app.coffee`__
 
-- Running another server on that port?
+- Runs on port 3000 or c9.io port by default
 - Go to [http://localhost:3000](http://localhost:3000)
 
 
@@ -37,8 +37,11 @@ __`cake server` or `coffee app.coffee`__
 - Express web server
 - Mongoose object modeler
 - Jade view templates
+- Twitter Boostrap layout
 - Mocha and Should, some kind of load tester
 - Trying a shared mongod, Dharma 2.3 Experimental from http://mongohq.com, 512 MB
+- Using JQuery for ajax and binding event listeners in catalog component
+
 
 
 
