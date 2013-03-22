@@ -1,5 +1,6 @@
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
 ## IF NOT ERROR IS Catalog is not defined
+# Depends on cart being in scope
 initCat = () ->
   catalog = new Catalog()
   return catalog
