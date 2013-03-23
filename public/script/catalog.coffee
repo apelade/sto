@@ -25,25 +25,25 @@ Catalog = () ->
   
   addItemDiv = (item) ->
     itemDiv = document.createElement "DIV"
-    itemDiv.setAttribute("class", "catItemDiv") # for style
+    itemDiv.setAttribute "class", "catItemDiv" # for style
     itemName = document.createElement "H2"
-    itemName.appendChild( document.createTextNode( item.name ) )
-    itemPrice = document.createTextNode( formatCurrency(item.price) )
-    itemInfo = document.createTextNode( item.info)
-    itemBtn = document.createElement("INPUT")
-    itemBtn.setAttribute("type", "button")
-    itemBtn.setAttribute("value", "Buy "+ item._id)
-    itemBtn.setAttribute("name", item._id)
-    itemBtn.setAttribute("class", "catItemBuyButton")
+    itemName.appendChild document.createTextNode item.name 
+    itemPrice = document.createTextNode formatCurrency item.price
+    itemInfo = document.createTextNode item.info
+    itemBtn = document.createElement "INPUT"
+    itemBtn.setAttribute "type", "button"
+    itemBtn.setAttribute "value", "Buy "+ item._id
+    itemBtn.setAttribute "name", item._id
+    itemBtn.setAttribute "class", "catItemBuyButton" # for event selector
     itemBtn.item = item
-    itemDiv.appendChild(itemName)
-    itemDiv.appendChild(document.createElement("BR"))
-    itemDiv.appendChild(itemPrice)
-    itemDiv.appendChild(document.createElement("BR"))
-    itemDiv.appendChild(itemInfo)
-    itemDiv.appendChild(document.createElement("BR"))
-    itemDiv.appendChild(itemBtn)
-    resultsDiv.appendChild(itemDiv)
+    itemDiv.appendChild itemName
+    itemDiv.appendChild document.createElement "BR"
+    itemDiv.appendChild itemPrice
+    itemDiv.appendChild document.createElement "BR"
+    itemDiv.appendChild itemInfo
+    itemDiv.appendChild document.createElement "BR"
+    itemDiv.appendChild itemBtn
+    resultsDiv.appendChild itemDiv
   
   addItems = (items)->
     resultsDiv.innerHTML = ""
@@ -51,7 +51,8 @@ Catalog = () ->
       addItemDiv(item)
  
   # ajax straight to db call, need some coalesce/dos prevention
-  # or just have established options in cache 10/page 25/page served by nginx 
+  # or just have established options in cache 10/page 25/page served by nginx
+  # or varnish, then this would become a load call
   fetchPage = () ->
     $.get "nextTen",{page:page, limit:limit}, (data) ->
       if data != "[]"
@@ -72,8 +73,9 @@ Catalog = () ->
           cart.addItem(eti._id, eti.name, eti.model, eti.info, eti.price)   
         
   $("#pageField").change () ->
-    page = Number(pageField.value) 
-    fetchPage()
+    if page != Number(pageField.value) 
+      page = Number(pageField.value) 
+      fetchPage()
   
   $("#nextTenButton").click () ->
     page++

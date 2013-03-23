@@ -43,7 +43,8 @@ app.get  "/nextTen", route.ajaxNextTen
 app.get  "/login", route.login_form
 app.post "/login", route.login
 app.get  "/loginPath/*:path?", route.login_redirect_form
-app.post "/loginPath/*:path?", route.login_redirect
+#app.post "/loginPath/*:path?", route.login_redirect
+app.post "/loginPath/*:path?", route.login
 
 # Include default routes for mongoose models in models dir
 fs = require "fs"
@@ -61,6 +62,7 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         for funcName of iModel
           # post or get
           reqMethName = iModel[funcName]
+          # set the route
           app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
   catch err
     console.log err if err?

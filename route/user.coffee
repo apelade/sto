@@ -3,6 +3,9 @@
 #
 
 User = require "../model/User"
+#crypto = require "crypto"
+bcrypt = require "bcrypt"
+SALT_WORK_FACTOR = 10
 
 module.exports =
 
@@ -19,6 +22,26 @@ module.exports =
 
 # handles form post
   save : (req, res) ->
-    user = new User(req.body.user)
-    user.save ->
-      res.redirect "/user/add"
+  
+    console.log "REQ.BODY.user === " + req.body.user.password
+    console.log "REQ.BODY.repeatPassword === " + req.body.repeatPassword
+    if req.body.user.password == req.body.repeatPassword
+      console.log "Passwords match"
+      # generate a salt
+      bcrypt.genSalt SALT_WORK_FACTOR, (err, salt) ->
+        if err?
+          return err
+
+        # hash the password with salt
+        bcrypt.hash req.body.user.password , salt, (err, hash) ->
+            if err?
+              return err
+            
+            req.body.user.password  = hash
+            user = new User(req.body.user)
+            user.save ->
+              res.redirect "/user/add"            
+
+    else
+      console.log "Passwords don't match"
+      res.redirect "."

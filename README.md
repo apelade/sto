@@ -11,7 +11,14 @@ __`cake install` or `npm install`__
 - Node and npm are required: download and install from http://nodejs.org/
 - Unzip to a location or checkout from github. You may need to be admin.
 - On a command prompt, run this command in the install dir to fetch libraries.
-
+- You now need bcrypt, which requires a couple dependencies for building native:
+ - The bcrypt README at https://github.com/ncb000gt/node.bcrypt.js worked great!
+ - It refers you to the node-gyp README https://github.com/TooTallNate/node-gyp
+ - python 2.x
+ - Right now I'm on windows, so Windows OpenSSL 64-bit libs
+ - visual studio express
+ - Win7 64-bit SDK, uninstalled prev versions of 2010 C++ Redistributable first
+ - This is THE barrier to entry now, despite how well it works. Crypto fallback?
 
 
 

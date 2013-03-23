@@ -12,7 +12,7 @@ User = new mongoose.Schema(
 )
 
 
-# can enforce pass hashing on save, or validate with pre's
+# can enforce pass hashing on save
 User.pre "save", (next) ->
   console.log "pre save"
   next()

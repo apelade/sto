@@ -1,6 +1,6 @@
 ##### NOTE THIS MUST BE COMPILED WITH NO TOP-LEVEL FUNCTION
 ## IF NOT ERROR IS Cart is not defined
-# records look like this, with cart[id] == obj[id]
+# records look like this, with cartObj[id] == obj[id]
 # cartObj[id]:{obj:{}, qty:num}
 # Depends on: /script/util.js
 
@@ -91,7 +91,6 @@ Cart = () ->
   # If id exists as a cart key, the val is incremented, else initialized to 1
   addItem = (id, name, model, info, price) ->
     cartObj = pullCart()
-    console.log "ADD ITEM cart ", pullCart()
     # cart stores items by key = item.id
     cartItem = cartObj[id]
     if ! cartItem?
@@ -109,7 +108,6 @@ Cart = () ->
       numInCart = Number(cartItem.qty)
       cartItem["qty"] = numInCart + 1
     cartObj[id] = cartItem  
-    console.log "ITEM == ", cartItem
     pushCart(cartObj)
     refresh()
     return cartObj
@@ -135,29 +133,29 @@ Cart = () ->
  
   makeRow = (obj, quantity) -> 
     #todo: check obj fields exist
-    tr = document.createElement("TR")
+    tr = document.createElement "TR"
     tr.setAttribute "ID", "tr"+obj.id
-    tr.setAttribute("CLASS", "itemRow")
+    tr.setAttribute "CLASS", "itemRow" 
 
-    td1 = document.createElement("TD")
+    td1 = document.createElement "TD"
     td1.appendChild document.createTextNode(obj.id)
     tr.appendChild td1
     
-    td2 = document.createElement("TD")
+    td2 = document.createElement "TD"
     td2.appendChild document.createTextNode(obj.name)
     tr.appendChild td2
     
-    td3 = document.createElement("TD")
+    td3 = document.createElement "TD"
     td3.appendChild document.createTextNode(obj.model)  
     tr.appendChild td3
       
-    td4 = document.createElement("TD")
+    td4 = document.createElement "TD"
     td4.appendChild document.createTextNode(formatCurrency(obj.price))
     td4.align = "left"
     tr.appendChild td4
 
-    td5 = document.createElement("TD")
-    qtyField = document.createElement("INPUT")
+    td5 = document.createElement "TD"
+    qtyField = document.createElement "INPUT"
     qtyFieldSize = "3"
     qtyField.setAttribute "SIZE", qtyFieldSize
     qtyField.setAttribute "MAXLENGTH", qtyFieldSize
@@ -165,10 +163,10 @@ Cart = () ->
     qtyField.setAttribute "CLASS", "quantity" 
     qtyField.setAttribute "ID", obj.id
     qtyField.setAttribute "VALUE", quantity
-    td5.appendChild(qtyField)
+    td5.appendChild qtyField
     tr.appendChild td5
     
-    td6 = document.createElement("TD")
+    td6 = document.createElement "TD"
     lineTotal = Number(obj.price) * Number(quantity)
     td6.appendChild document.createTextNode(formatCurrency(lineTotal))
     td6.align = "right"
@@ -178,12 +176,12 @@ Cart = () ->
   initElement = ->
     totalCost = 0
     totalQty = 0
-    console.log("INIT ELEMENT")
-    table = document.createElement("TABLE")
+    console.log "INIT ELEMENT"
+    table = document.createElement "TABLE"
     table.setAttribute "NAME", "cartTable"
-    tableBody = document.createElement("TBODY")
-    tableFoot = document.createElement("TFOOT")
-    table.appendChild(tableBody)
+    tableBody = document.createElement "TBODY"
+    tableFoot = document.createElement "TFOOT"
+    table.appendChild tableBody
     # table.appendChild(tableFoot) removed -- no .colspan
     pc = pullCart()
     for itemkey of pc
@@ -193,13 +191,13 @@ Cart = () ->
         tableBody.appendChild makeRow(obj, qty)
         totalCost += (Number(qty) * Number(obj.price))
         totalQty += Number(qty)
-    subtotalRow = document.createElement("TR")
-    tdWord = document.createElement("TD")
-    tdWord.setAttribute("colspan","5")
-    tdWord.setAttribute("align", "right")
-    tdWord.appendChild document.createTextNode(" " + totalQty + " items :  ")
-    tdCost = document.createElement("TD")
-    tdCost.setAttribute("align", "left")
+    subtotalRow = document.createElement "TR"
+    tdWord = document.createElement "TD"
+    tdWord.setAttribute "colspan", "5"
+    tdWord.setAttribute "align", "right"
+    tdWord.appendChild document.createTextNode " " + totalQty + " items :  "
+    tdCost = document.createElement "TD"
+    tdCost.setAttribute "align", "left"
     tdCost.appendChild document.createTextNode(formatCurrency(totalCost))
     subtotalRow.appendChild tdWord
     subtotalRow.appendChild tdCost
@@ -213,9 +211,9 @@ Cart = () ->
   # todo: rather a blunt instrument here..  
   refresh = () ->
     if myElement?
-      document.getElementById(parentDivName).removeChild(myElement);
+      document.getElementById(parentDivName).removeChild(myElement)
       myElement = null
-      document.getElementById(parentDivName).appendChild(initElement());
+      document.getElementById(parentDivName).appendChild(initElement())
       bindRowFields(cart, document.getElementsByClassName("itemRow"))
       
   # return public methods, otherwise error message is "Object has no method x"

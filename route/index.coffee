@@ -1,9 +1,11 @@
 #
 # These functions are called by name from app.coffee routes
 #
-
 Tag = require "../model/Tag"
 Item = require "../model/Item"
+User = require "../model/User"
+bcrypt = require "bcrypt"
+SALT_WORK_FACTOR = 10
 
 module.exports =
   
@@ -41,9 +43,29 @@ module.exports =
    
   # handle login post plain
   login: (req, res) ->
-    if req.body.login  == 'pablo' && req.body.password== 'cody'
-      req.session.user_id = "sweet100"
-      res.redirect "/index"
+    log = req.body.login
+    pass = req.body.password
+#      checkAuth log, pass, (err, result) ->
+    User.findOne {login:log}, (err, result) ->
+      console.log "result pass for log: " + log + " is "
+      console.log "result: " , result
+      console.log err if err?
+#        req.session.user_id = "sweet100" 
+#        res.redirect "/"+req.params.path
+      if result?.password?
+        console.log "respass == ", result.password
+        bcrypt.compare pass, result.password, (err, isMatch) ->
+          console.log err if err?
+          if isMatch == true
+            req.session.user_id = "sweet100" 
+            if req.params.path?
+              res.redirect "/"+req.params.path
+            else
+              res.redirect "/"
+          else
+            delete req.session.user_id
+            res.redirect "/"
+      
   
   # handle login get with redirect
   # origPath is written into the post route on the template
@@ -51,11 +73,37 @@ module.exports =
   login_redirect_form: (req, res) ->
     res.render "login_redirect_form",
       origPath: "/"+req.params.path
-      
+  
+#  checkAuth : (log,pass,cb) ->
+#    User.findOne {login:log}, (err, result) ->
+#      console.log "result pass for log: " + log + " is ", result.password
+#      if result?.password?
+#        bcrypt.compare pass, result.password, (err, isMatch) ->
+#          if err?
+#            return cb(err)
+#          cb(null, true)
   # handle login post with redirect to original destination
   # route called from app.coffee route app.post "/loginPath/*:path?"
-  login_redirect: (req, res) ->
-    if req.body.login  == 'pablo' && req.body.password== 'cody'
-      req.session.user_id = "sweet100" 
-      res.redirect "/"+req.params.path
   
+#  login_redirect: (req, res) ->
+##    if req.body.login  == 'pablo' && req.body.password== 'cody'
+#      log = req.body.login
+#      pass = req.body.password
+##      checkAuth log, pass, (err, result) ->
+#      User.findOne {login:log}, (err, result) ->
+#        console.log "result pass for log: " + log + " is "
+#        console.log "result: " , result
+#        console.log err if err?
+##        req.session.user_id = "sweet100" 
+##        res.redirect "/"+req.params.path
+#        if result?.password?
+#          console.log "respass == ", result.password
+#          bcrypt.compare pass, result.password, (err, isMatch) ->
+#            console.log err if err?
+#            if isMatch == true
+#              req.session.user_id = "sweet100" 
+#              res.redirect "/"+req.params.path
+#            else
+#              delete req.session.user_id
+#              res.redirect "/"
+      
