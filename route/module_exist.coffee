@@ -1,4 +1,4 @@
-mod = require 'module'
+# props to: https://gist.github.com/FGRibreau/3135914
 
 module.exports = 
   found: (name) ->
