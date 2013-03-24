@@ -4,6 +4,9 @@
                         Multi-platform including c9.io, Linux, Windows
                               Fresh Libs  ~  Freely Hosted
 
+
+
+
 ### Install
 __`cake install` or `npm install`__
 
@@ -13,6 +16,7 @@ __`cake install` or `npm install`__
 - On a command prompt, run this command in the install dir to fetch libraries.
 - If bcrypt is installed it is used, defaults to crypto.
 - Note that passwords are not compatible/portable between the two.
+
 
 
 
@@ -33,6 +37,8 @@ __`cake server` or `coffee app.coffee`__
 - See app.coffee, line 65, which begins "# To skip checkUser". Edit and restart.
 - Create user from /index "Add User" link or <host>/user/add.
 - Edit app.coffee to restore checkUser, restart. New user should work. 
+
+
 
 
 ### Dependency ###
@@ -88,7 +94,9 @@ __`cake server` or `coffee app.coffee`__
 
 
 
+
 ### Design ###
+#### Server ####
 - Express server is defined in app.coffee and connects url paths to execute
   functions in route files.
 - Routes files handling get and post of common mogoose model CRUD ops are
@@ -99,6 +107,7 @@ __`cake server` or `coffee app.coffee`__
   middleware function.
 - Forms post action values containing original destination, for the purpose
   of redirect on successful login.
+#### Client ####
 - Client application skeleton is defined by layout.jade template includes.
 - These includes can be groups of javascript, stylesheets, meta tags, etc.
 - There is one called /view/scripts.jade that loads the common scripts in order.
@@ -110,6 +119,3 @@ __`cake server` or `coffee app.coffee`__
 - Login uses no client-side scripts, instead a login session starts on the
   server when the user sucessfully logs in. No log out currently.
 - Cart currently uses localStorage only.
-
-
-
