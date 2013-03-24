@@ -29,7 +29,10 @@ __`cake server` or `coffee app.coffee`__
 
 - Runs on port 3000 or c9.io port by default
 - Go to [http://localhost:3000](http://localhost:3000)
-
+- First user has to temporarily disable checkUser to create own account.
+- See app.coffee, line 65, which begins "# To skip checkUser". Edit and restart.
+- Create user from /index "Add User" link or <host>/user/add.
+- Edit app.coffee to restore checkUser, restart. New user should work. 
 
 
 ### Dependency ###
@@ -82,4 +85,31 @@ __`cake server` or `coffee app.coffee`__
 	test/			: (mocha and should) test files in tests.coffee
 	
 	view/			: (jade) view templates directory
+
+
+
+### Design ###
+- Express server is defined in app.coffee and connects url paths to execute
+  functions in route files.
+- Routes files handling get and post of common mogoose model CRUD ops are
+  included in a loop, standardized toward automated generation of routes.
+- Routes take the "action" defined by the route path, such as "save" on
+  post of /item/add, and render pages in response, forms and redirects.
+- These CRUD routes (and others) enforce login by using the optional checkUser
+  middleware function.
+- Forms post action values containing original destination, for the purpose
+  of redirect on successful login.
+- Client application skeleton is defined by layout.jade template includes.
+- These includes can be groups of javascript, stylesheets, meta tags, etc.
+- There is one called /view/scripts.jade that loads the common scripts in order.
+- There are also chunks which define cart, login, and catalog components.
+- Cart and catalog components are compiled without the top-level function into
+  javascripts for the client side.
+- Cart binds it's own event listeners, controls user input, and redraws itself.
+- Catalog uses JQuery event selectors and JQuery AJAX request to page the Items.
+- Login uses no client-side scripts, instead a login session starts on the
+  server when the user sucessfully logs in. No log out currently.
+- Cart currently uses localStorage only.
+
+
 

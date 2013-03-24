@@ -62,8 +62,11 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         for funcName of iModel
           # post or get
           reqMethName = iModel[funcName]
-          # set the route
+          # To skip checkUser for first user, temporarily use the first line:
+          # app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
+          # Ordinarily, use this line with checkUser middleware inline:
           app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
+
   catch err
     console.log err if err?
 
