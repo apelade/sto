@@ -107,6 +107,7 @@ __`cake server` or `coffee app.coffee`__
   middleware function.
 - Forms post action values containing original destination, for the purpose
   of redirect on successful login.
+
 #### Client ####
 - Client application skeleton is defined by layout.jade template includes.
 - These includes can be groups of javascript, stylesheets, meta tags, etc.
