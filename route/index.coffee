@@ -4,8 +4,13 @@
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 User = require "../model/User"
-bcrypt = require "bcrypt"
+module_exist = require "./module_exist.coffee"
+bcrypt = null
 SALT_WORK_FACTOR = 10
+if module_exist.found("bcrypt")
+  bcrypt = require "bcrypt"
+  
+crypto = require "crypto"
 
 module.exports =
   
@@ -46,17 +51,34 @@ module.exports =
     log = req.body.login
     pass = req.body.password
 #      checkAuth log, pass, (err, result) ->
-    User.findOne {login:log}, (err, result) ->
+    User.findOne {login:log}, (err, user) ->
       console.log "result pass for log: " + log + " is "
-      console.log "result: " , result
+      console.log "user: " , user
       console.log err if err?
 #        req.session.user_id = "sweet100" 
 #        res.redirect "/"+req.params.path
-      if result?.password?
-        console.log "respass == ", result.password
-        bcrypt.compare pass, result.password, (err, isMatch) ->
-          console.log err if err?
-          if isMatch == true
+      if user?.password?
+        console.log "respass == ", user.password
+        
+        if bcrypt?
+          bcrypt.compare pass, user.password, (err, isMatch) ->
+            console.log err if err?
+            if isMatch == true
+              req.session.user_id = "sweet100" 
+              if req.params.path?
+                res.redirect "/"+req.params.path
+              else
+                res.redirect "/"
+            else
+              delete req.session.user_id
+              res.redirect "/"
+        else if crypto?
+          console.log "USER.salt isss ", user.salt
+          hmac = crypto.createHmac('sha256', user.salt).update(pass).digest("hex")
+          console.log "HMAC == " + hmac
+          console.log "UPASS == " + user.password
+          if user.password.toString "hex" == hmac
+            console.log "HMAC MATCH PW"
             req.session.user_id = "sweet100" 
             if req.params.path?
               res.redirect "/"+req.params.path
@@ -65,7 +87,6 @@ module.exports =
           else
             delete req.session.user_id
             res.redirect "/"
-      
   
   # handle login get with redirect
   # origPath is written into the post route on the template

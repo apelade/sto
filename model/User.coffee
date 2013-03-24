@@ -5,6 +5,7 @@ mongoose = require 'mongoose'
 User = new mongoose.Schema(
   login   : String
   password: String
+  salt    : String
   name    : String
   email   : String
   address : String
