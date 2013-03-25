@@ -29,24 +29,21 @@ app.configure "production", ->
   mongoose.connect 'mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb-prod'
   app.use express.errorHandler()
 
+# Send user to login if they are accessing restricted routes
 checkUser = (req,res,next) ->
   console.log "ROUTE: " , req.route
   if !req.session?.user_id?
-    res.render "login_redirect_form",
+    res.render "login_form",
       origPath : req.route.path
   else
     next()
   
-app.get  "/", checkUser, route.index
-app.get  "/index", route.index
+app.get  "/index*|/$", route.index
 app.get  "/nextTen", route.ajaxNextTen
-app.get  "/login", route.login_form
-app.post "/login", route.login
-app.get  "/loginPath/*:path?", route.login_redirect_form
-#app.post "/loginPath/*:path?", route.login_redirect
-app.post "/loginPath/*:path?", route.login
+# Called from login_form as a result of checkUser
+app.post "/login*:path?", route.login
 
-# Include default routes for mongoose models in models dir
+# Routes for mongoose models in models dir
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
   # What we look for in the models, our interface, with request type
@@ -66,7 +63,6 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
           # app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
           # Ordinarily, use this line with checkUser middleware inline:
           app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
-
   catch err
     console.log err if err?
 
