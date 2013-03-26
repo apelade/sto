@@ -33,3 +33,7 @@ isTypedDigit = (charCode) ->
 isNormalInteger = (str) ->
   n = ~~Number(str);
   return String(n) == str && n >= 0
+
+exists = (obj) ->
+  return typeof arg isnt "undefined" and arg isnt null
+  

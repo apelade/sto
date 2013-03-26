@@ -31,10 +31,9 @@ app.configure "production", ->
 
 # Send user to login if they are accessing restricted routes
 checkUser = (req,res,next) ->
-  console.log "ROUTE: " , req.route
   if !req.session?.user_id?
     res.render "login_form",
-      origPath : req.route.path
+      redirectPath : req.route.path
   else
     next()
   
@@ -46,8 +45,8 @@ app.post "/login*:path?", route.login
 # Routes for mongoose models in models dir
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
-  # What we look for in the models, our interface, with request type
-  iModel =
+  # Map of request method types for each model function
+  modMap =
     add:"get",
     save:"post"
   try
@@ -56,11 +55,10 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
       if words?[1] is "coffee"
         modelName = words[0].toLowerCase()
         modelObj = require "./route/"+modelName+".coffee"
-        for funcName of iModel
-          # post or get
-          reqMethName = iModel[funcName]
-          # To skip checkUser for first user, temporarily use the first line:
-          # app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
+        for funcName of modMap
+          reqMethName = modMap[funcName]
+          # To skip checkUser for first user, temporarily use this line:
+#          app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
           # Ordinarily, use this line with checkUser middleware inline:
           app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
   catch err
