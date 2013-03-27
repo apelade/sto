@@ -2,7 +2,7 @@
 
 						All-CoffeeScript Node.js project in c9.io IDE
                         Multi-platform including c9.io, Linux, Windows
-                              Fresh Libs  ~  Freely Hosted
+                                Fresh Libs  ~  Freely Hosted
 
 
 
@@ -10,12 +10,13 @@
 ### Install
 __`cake install` or `npm install`__
 
-- Size: Less than 6 MB with libs at this point.
+- Size: Less than 10 MB with libs at this point.
 - Node and npm are required: download and install from http://nodejs.org/
 - Unzip to a location or checkout from github. You may need to be admin.
 - On a command prompt, run this command in the install dir to fetch libraries.
 - If bcrypt is installed it is used, defaults to crypto.
 - Note that passwords are not compatible/portable between the two.
+- The client-side coffee scripts must be compiled to javascript if not already.
 
 
 
@@ -23,7 +24,7 @@ __`cake install` or `npm install`__
 ### Test
 __`cake test`__
 
-- Startup args in the Cakefile configure testing options
+- Startup args in the Cakefile configure testing options.
 
 
 
@@ -55,7 +56,7 @@ __`cake server` or `coffee app.coffee`__
  - The bcrypt README at https://github.com/ncb000gt/node.bcrypt.js worked great!
  - It refers you to the node-gyp README https://github.com/TooTallNate/node-gyp
  - python 2.x
- - Right now I'm on windows, so Windows OpenSSL 64-bit libs
+ - Right now I'm on Windows 7, so Windows OpenSSL 64-bit libs
  - Visual Studio Express
  - Win7 64-bit SDK, uninstalled prev versions of 2010 C++ Redistributable first
 
@@ -98,15 +99,14 @@ __`cake server` or `coffee app.coffee`__
 ### Design ###
 #### Server ####
 - Express server is defined in app.coffee and connects url paths to execute
-  functions in route files.
-- Routes files handling get and post of common mogoose model CRUD ops are
-  included in a loop, standardized toward automated generation of routes.
-- Routes take the "action" defined by the route path, such as "save" on
-  post of /item/add, and render pages in response, forms and redirects.
+  functions in route files, which generate pages and redirects in response.
+- Multiple routes files handle get and post of common Mongoose model CRUD ops.
+- These are standardized toward possible future automation.
 - These CRUD routes (and others) enforce login by using the optional checkUser
   middleware function.
-- Forms post action values containing original destination, for the purpose
-  of redirect on successful login.
+- Login form posts action values containing original destination, to redirect
+  on successful login.
+- Rudimentary login currently has one implied role of admin for all users.
 
 #### Client ####
 - Client application skeleton is defined by layout.jade template includes.
