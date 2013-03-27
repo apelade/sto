@@ -1,4 +1,4 @@
-mongoose = require "mongoose"
+mongoose =  require "mongoose"
 express = require "express"
 fs = require "fs"
 route = require "./route/"
@@ -36,13 +36,13 @@ checkUser = (req,res,next) ->
       redirectPath : req.route.path
   else
     next()
-  
+    
 app.get  "/index*|/$", route.index
 app.get  "/nextTen", route.ajaxNextTen
-# Called from login_form as a result of checkUser
-app.post "/login*:path?", route.login
-
-# Routes for mongoose models in models dir
+# called from login_form as a result of checkUser
+userRoutes = require "./route/user.coffee"
+app.post "/login*:path?", userRoutes.login
+# Routes for mongoose models in models dir, protected by checkUser
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
   # Map of request method types for each model function
@@ -57,12 +57,12 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         modelObj = require "./route/"+modelName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
-          # To skip checkUser for first user, temporarily use this line:
+          # To create first user, temporarily use this line to disable login:
 #          app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
           # Ordinarily, use this line with checkUser middleware inline:
           app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
   catch err
-    console.log err if err?
+    cons  ole.log err if err?
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

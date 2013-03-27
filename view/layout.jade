@@ -7,14 +7,14 @@ html
     .navbar.navbar-inverse.navbar-fluid-top
       .navbar-inner
         .container
-          //- .nav-collapse
-          h3: a(href="/")= title
-          ul.nav
-            li: a(href="/item/add") Add Item
-            li: a(href="/tag/add") Add Tag
-            li: a(href="/user/add") Add User
-            li: include cart
-            li: include login
+          .nav-collapse
+            h3: a(href="/")= title
+            ul.nav
+              li: a(href="/item/add") Add Item
+              li: a(href="/tag/add") Add Tag
+              li: a(href="/user/add") Add User
+              li: include cart
+              li: include login
 
     .container
       .row-fluid
@@ -23,7 +23,6 @@ html
           br
           block center
 
-    .container
-      .row-fluid
-        .content
-          include catalog
+    .container-fluid
+      .content
+        include catalog

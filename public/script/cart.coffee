@@ -60,7 +60,7 @@ bindRowFields = (cart, itemRows) ->
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
 
-init = () ->
+initCart = () ->
   acart = new Cart()
   element = acart.getElement()
   # todo hardcoded parent
@@ -226,4 +226,4 @@ Cart = () ->
 
 cart = {}
 $(document).ready ->
-  cart = init()
+  cart = initCart()
