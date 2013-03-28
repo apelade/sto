@@ -59,8 +59,6 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         modelObj = require "./route/"+modelName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
-#          if funcName is "byId"
-#            funcName = "byId/:id?"
           extra = ""
           if funcName is "byName"
             extra = "/:name?"
