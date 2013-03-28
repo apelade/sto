@@ -16,7 +16,6 @@ __`cake install` or `npm install`__
 - On a command prompt, run this command in the install dir to fetch libraries.
 - If bcrypt is installed it is used, defaults to crypto.
 - Note that passwords are not compatible/portable between the two.
-- The client-side coffee scripts must be compiled to javascript if not already.
 
 
 
