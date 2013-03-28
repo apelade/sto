@@ -60,13 +60,9 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         for funcName of modMap
           reqMethName = modMap[funcName]
           extra = ""
-          if funcName is "byName"
-            extra = "/:name?"
-          if funcName is "byId"
-            extra = "/:id?" 
-          # To create first user, temporarily use this line to disable login:
-#          app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
-          # Ordinarily, use this line with checkUser middleware inline:
+          param = funcName.toLowerCase().split "by"
+          if param? && param.length is 2 && param[0] is ''
+            extra = "/:"+param[1]+"?"
           app[reqMethName] "/"+modelName+"/"+funcName+extra , checkUser, modelObj[funcName]
   catch err
     console.log err if err?
