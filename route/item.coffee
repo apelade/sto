@@ -1,7 +1,3 @@
-#
-# These functions are called by name from app.coffee routes
-#
-
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 
@@ -27,3 +23,19 @@ module.exports =
     item.tags[item.tags.length] = req.body.tag
     item.save ->
       res.redirect "/item/add"
+
+  
+  byId : (req, res) ->
+    Item.find {_id:req.params.id}, (err, items) ->
+      if not items?
+        items = []
+      res.render "items",
+        items: items
+    
+  byName : (req, res) ->
+    Item.find {name:req.params.name}, (err, items) ->
+      if not items?
+        items = []    
+      res.render "items",
+        items: items  
+        

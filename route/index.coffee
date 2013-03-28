@@ -1,7 +1,3 @@
-#
-# These functions are called by name from app.coffee routes
-#
-
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 User = require "../model/User"

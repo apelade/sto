@@ -16,3 +16,19 @@ module.exports =
     tag = new Tag(req.body.tag)
     tag.save ->
       res.redirect "/tag/add"
+
+  byId : (req, res) ->
+    Tag.find {_id:req.params.id}, (err, tags) ->
+      if not tags?
+        tags = []
+      res.render "tags",
+        tags: tags
+    
+  byName : (req, res) ->
+    console.log req.params.name
+    Tag.find {name:req.params.name}, (err, tags) ->
+      if not tags?
+        tags = []
+      res.render "tags",
+        tags: tags
+        

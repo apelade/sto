@@ -48,7 +48,9 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
   # Map of request method types for each model function
   modMap =
     add:"get",
-    save:"post"
+    save:"post",
+    byId:"get",
+    byName:"get"
   try
     for file in files
       words = file.split "."    
@@ -57,12 +59,19 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         modelObj = require "./route/"+modelName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
+#          if funcName is "byId"
+#            funcName = "byId/:id?"
+          extra = ""
+          if funcName is "byName"
+            extra = "/:name?"
+          if funcName is "byId"
+            extra = "/:id?" 
           # To create first user, temporarily use this line to disable login:
 #          app[reqMethName] "/"+modelName+"/"+funcName , modelObj[funcName]
           # Ordinarily, use this line with checkUser middleware inline:
-          app[reqMethName] "/"+modelName+"/"+funcName , checkUser, modelObj[funcName]
+          app[reqMethName] "/"+modelName+"/"+funcName+extra , checkUser, modelObj[funcName]
   catch err
-    cons  ole.log err if err?
+    console.log err if err?
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
