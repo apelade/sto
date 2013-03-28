@@ -64,6 +64,17 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
           if param? && param.length is 2 && param[0] is ''
             extra = "/:"+param[1]+"?"
           app[reqMethName] "/"+modelName+"/"+funcName+extra , checkUser, modelObj[funcName]
+        
+        if modelName is "item"
+          mod = require "./model/Item.coffee"
+          modPaths = mod.schema.paths
+          for pathName, path of modPaths
+#            console.log "pathName == ", pathName
+#            console.log "func  == ", modelObj[pathName]
+            extra = "/:"+pathName+"?"
+            console.log "path == " + "/"+modelName+"/"+pathName+extra 
+            app.get  "/"+modelName+"/"+pathName+extra, modelObj[pathName]  
+            
   catch err
     console.log err if err?
 
