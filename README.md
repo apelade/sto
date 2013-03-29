@@ -121,5 +121,5 @@ __`cake server` or `coffee app.coffee`__
 - Cart binds it's own event listeners, controls user input, and redraws itself.
 - Catalog uses JQuery event selectors and JQuery AJAX request to page the Items.
 - Login uses no client-side scripts, instead a login session starts on the
-  server when the user sucessfully logs in. No log out currently.
+  server when the user sucessfully logs in. Log out by logging in incorrectly.
 - Cart currently uses localStorage only.
