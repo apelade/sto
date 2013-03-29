@@ -36,16 +36,17 @@ checkUser = (req,res,next) ->
       redirectPath : req.url
   else
     next()
-    
+
+# routes
 app.get  "/index*|/$", route.index
 app.get  "/nextTen", route.ajaxNextTen
 # called from login_form as a result of checkUser
 userRoutes = require "./route/user.coffee"
 app.post "/login*:path?", userRoutes.login
-# Routes for mongoose models in models dir, protected by checkUser
+# routes for mongoose models in models dir, protected by checkUser
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
-  # Map of request method types for each model function
+  # map of request method types for each model function
   modMap =
     add:"get",
     save:"post"
