@@ -1,12 +1,12 @@
 - if(typeof redirectPath == "undefined") redirectPath = "/"
-form(method="post", action="/login#{redirectPath}")
+form(method="post", action="/login#{redirectPath}", autocomplete="on")
   fieldset
     legend="Log in"
     .clearfix
       label(for="login")
         b Login
       .input
-        input.xlarge#title(type="text", name="login")
+        input.xlarge#title(type="text", name="login", autofocus)
     .clearfix
       label(for="password")
         b Password
