@@ -1,3 +1,5 @@
+# /route/user.coffee
+
 User = require "../model/User"
 module_exist = require "./module_exist.coffee"
 bcrypt = null
@@ -50,7 +52,6 @@ module.exports.add  = (req, res) ->
       title: "Now we're adding users."
       users: users
 
-
 # handles form post
 module.exports.save = (req, res) ->
   if req.body.user.password == req.body.repeatPassword
@@ -82,19 +83,4 @@ module.exports.login = (req, res) ->
         crypto.pbkdf2 pass, user.salt, BASE_ITERATIONS, 64, (err, hash) ->
           isMatch = user.password is hash
           handleLogin(req, res, err, user, isMatch )
-
-#
-#module.exports.byId = (req, res) ->
-#  User.find {_id:req.params.id}, (err, users) ->
-#    if not users?
-#      users = []
-#    res.render "users",
-#      users: users
-#
-#module.exports.byName = (req, res) ->
-#  User.find {name:req.params.name}, (err, users) ->
-#    if not users?
-#      users = []    
-#    res.render "users",
-#      users: users
-#      
+   

@@ -1,3 +1,5 @@
+# /route/item.coffee
+
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 
@@ -34,27 +36,3 @@ module.exports.save = (req, res) ->
   item.tags[item.tags.length] = req.body.tag
   item.save ->
     res.redirect "/item/add"
-    
-#
-#
-#byId = (req, res) ->
-#  Item.find {_id:req.params.id}, (err, items) ->
-#    if not items?
-#      items = []
-#    res.render "items",
-#      items: items
-#      
-#module.exports["byId"] = byId
-#      
-#
-#byName = (req, res) ->
-#  Item.find {name:req.params.name}, (err, items) ->
-#    if not items?
-#      items = []    
-#    res.render "items",
-#      items: items  
-# 
-# 
-#module.exports["byName"] = byName
- 
-#console.log module.exports

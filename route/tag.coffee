@@ -1,5 +1,5 @@
 # /route/tag.coffee
-#Item = require "../model/Item"
+
 Tag = require "../model/Tag"
 
 for key, path of Tag.schema.paths
@@ -27,21 +27,4 @@ module.exports.save = (req, res) ->
   tag = new Tag(req.body.tag)
   tag.save ->
     res.redirect "/tag/add"
-
-#byId = (req, res) ->
-#  Tag.find {_id:req.params.id}, (err, tags) ->
-#    if not tags?
-#      tags = []
-#    res.render "tags",
-#      tags: tags
-#module.exports.byId = byId
-#
-#byName = (req, res) ->
-#  console.log req.params.name
-#  Tag.find {name:req.params.name}, (err, tags) ->
-#    if not tags?
-#      tags = []
-#    res.render "tags",
-#      tags: tags
-#module.exports.byName = byName
-#        
+      
