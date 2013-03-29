@@ -48,9 +48,9 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
   # Map of request method types for each model function
   modMap =
     add:"get",
-    save:"post",
-    byId:"get",
-    byName:"get"
+    save:"post"#,
+#    byId:"get",
+#    byName:"get"
   try
     for file in files
       words = file.split "."    
@@ -59,22 +59,18 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         modelObj = require "./route/"+modelName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
-          extra = ""
-          param = funcName.toLowerCase().split "by"
-          if param? && param.length is 2 && param[0] is ''
-            extra = "/:"+param[1]+"?"
+#          extra = ""
+#          param = funcName.toLowerCase().split "by"
+#          if param? && param.length is 2 && param[0] is ''
+#            extra = "/:"+param[1]+"?"
           app[reqMethName] "/"+modelName+"/"+funcName+extra , checkUser, modelObj[funcName]
-        
-        if modelName is "item"
-          mod = require "./model/Item.coffee"
-          modPaths = mod.schema.paths
-          for pathName, path of modPaths
-#            console.log "pathName == ", pathName
-#            console.log "func  == ", modelObj[pathName]
+        mod = require "./model/"+words[0]+".coffee"
+        modPaths = mod.schema.paths
+        for pathName, path of modPaths
+          if pathName not in ["password", "salt"]
             extra = "/:"+pathName+"?"
             console.log "path == " + "/"+modelName+"/"+pathName+extra 
-            app.get  "/"+modelName+"/"+pathName+extra, modelObj[pathName]  
-            
+            app.get  "/"+modelName+"/"+pathName+extra, checkUser, modelObj[pathName]  
   catch err
     console.log err if err?
 
