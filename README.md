@@ -106,6 +106,7 @@ __`cake server` or `coffee app.coffee`__
 - Login form posts action values containing original destination, to redirect
   on successful login.
 - Rudimentary login currently has one implied role of admin for all users.
+- Loop in route files enumerates query routes per model property.
 
 #### Client ####
 - Client application skeleton is defined by layout.jade template includes.
