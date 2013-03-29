@@ -35,10 +35,10 @@ __`cake server` or `coffee app.coffee`__
 - Go to [http://localhost:3000](http://localhost:3000)
 - First user has to temporarily disable checkUser to create own account.
 - See app.coffee, line 65, which begins "# To skip checkUser". Edit and restart.
-- Create user from /index "Add User" link or <host>/user/add.
+- Create user from /index "Add User" link or http://localhost:3000/user/add.
 - Edit app.coffee to restore checkUser, restart. New user should work.
 - Query routes are /model/field/match like:
- - localhost:3000/user/login/<your login> should find the user you created
+ - localhost:3000/user/login/your_login should find the user you created
  - localhost:3000/item/price/100 would find an item you create with price of 100
 
 
