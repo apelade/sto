@@ -24,12 +24,14 @@ handleLogin = (req, res, err, user, ok) ->
 
 handleSave = (req, res, err, salt, hash) ->
   console.log err if err?
-  req.body.user.password = derivedKey.toString("base64")
+  req.body.user.password = hash.toString("base64")
   req.body.user.salt = salt
   user = new User(req.body.user)
   user.save ->
-    res.redirect "/user/add"    
-       
+    if res?
+      res.redirect "/user/add"    
+    return user
+    
 for key, path of User.schema.paths
   module.exports[key] = do (key) ->
     afunc = (req, res) ->
@@ -65,9 +67,10 @@ module.exports.save = (req, res) ->
         salt = req.body.user.login + (buf).toString "base64"
         crypto.pbkdf2 pass, salt, BASE_ITERATIONS, 64, (err, hash) -> 
           handleSave(req,res,err,salt,hash) 
-    else
-      console.log "Passwords must match"
-      res.redirect "."
+  else
+    console.log "Passwords must match"
+    if res?
+      res.redirect "/"
 
 # handle login post plain
 module.exports.login = (req, res) ->

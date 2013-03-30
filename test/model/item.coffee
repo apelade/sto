@@ -9,33 +9,34 @@ should   =  require "should"
 describe "item", ->
 
   describe "#add()", ->
-   it "should GET form for Items", ->
+   it "should GET form for Items", (done) ->
      req = {}
      res = 
        render: (view, vars) ->
          view.should.equal "item_add"
      routes.add(req, res)
+     done()
 
-  describe "#save()", (done)->
-    it "should save an Item to the db", ->
+  describe "#save()", ->
+    it "should save an Item to the db", (done) ->
       req = 
         params: {}
         body: {}
-      name = "itemtest-" + Date.now()
+      aname = "itemtest-" + Date.now()
       req.body.item =
         tags  : []
-        name  : name
+        name  : aname
         model : "fashion"
         info  : "much more info at cnn.com"
         price : 5000
 
-      routes.save req, redirect: (route) ->
-        Item.findOne {name:name}, (err, item) ->
-          if item.name.should.equal name
- #            console.log "\nItem " + name + "added to db."
+      routes.save req, redirect:  ->
+        Item.findOne {name:aname}, (err, item) ->
+          if item.name.should.equal aname
+            console.log "\nItem " + aname + "added to db."
             Item.remove item, (err,res) ->
-  #              console.log err if err?
+              console.log err if err?
               Item.findById item._id, (err, itemfound) ->
                 should.not.exist(itemfound)
-  #              console.log "Remove. Item in db after remove? " + itemfound?
+                console.log "Remove. Item in db after remove? " + itemfound?
                 done()

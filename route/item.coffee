@@ -35,4 +35,6 @@ module.exports.save = (req, res) ->
   item = new Item(req.body.item)
   item.tags[item.tags.length] = req.body.tag
   item.save ->
-    res.redirect "/item/add"
+    if res?
+      res.redirect "/item/add"
+    return item

@@ -60,6 +60,7 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         for funcName of modMap
           reqMethName = modMap[funcName]
           app[reqMethName] "/"+modelName+"/"+funcName, checkUser, modelObj[funcName]
+        # add get routes for query on model fields
         mod = require "./model/"+words[0]+".coffee"
         modPaths = mod.schema.paths
         for pathName, path of modPaths

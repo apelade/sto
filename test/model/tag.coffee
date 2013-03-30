@@ -1,4 +1,4 @@
-# /test/tag.coffee
+  # /test/tag.coffee
 
 routes   =  require "../../route/tag.coffee"
 Tag      =  require "../../model/Tag"
@@ -19,13 +19,18 @@ describe "tag", ->
       req = 
         params: {}
         body: {}
-      name = "tagtest-" + Date.now()
+      aname = "tagtest-" + Date.now()
       req.body.tag =
-        name : name
+        name : aname
 
-      routes.save req, redirect: (route) ->
-        Tag.findOne {name:name}, (err, tag) ->
-          if tag.name.should.equal name
+      routes.save req, redirect: ->
+        Tag.findOne {name:aname}, (err, tag) ->
+          if tag.name.should.equal aname
+            console.log "\nTag " + aname + " added to db"
             Tag.remove tag, (err,res) ->
               Tag.findById tag._id, (err, tagfound) ->
+                console.log err if err?
+                should.not.exist tagfound
+                console.log "Removed tag found anymore? " + tagfound?
                 done()
+

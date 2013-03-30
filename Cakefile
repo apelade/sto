@@ -1,9 +1,8 @@
 # Cakefile for sto
 # Runs on Windows, c9.io and Debian
-# List reporter gets messages even on Windows.
+# list reporter gets messages even on Windows.
 # NPM and node are prerequisites
-# Still no mocha test results from asynch embedded methods using done()
-# in test/routes-test.coffee but it does break when the assertions fail. 
+
 
 {exec} = require "child_process"
 
@@ -13,7 +12,8 @@ s = path.sep
 NPM = "npm"
 bin = ".#{s}node_modules#{s}.bin"
 MOCHA  = "#{bin}#{s}mocha"
-REPORTER = "json-cov"
+#REPORTER = "json-cov"
+REPORTER = "list"
 COFFEE = "#{bin}#{s}coffee"
 RUNFILE = "app.coffee"
 
@@ -30,7 +30,7 @@ task "test", "run tests", ->
   process.env["NODE_ENV"] = "test"
   exec "
     #{MOCHA}
-    --timeout 4000
+    --timeout 8000
     --compilers coffee:coffee-script
     --reporter #{REPORTER}
     --growl
