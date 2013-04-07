@@ -66,6 +66,9 @@ initCart = function() {
   parentDivName = "cartDiv";
   document.getElementById(parentDivName).appendChild(element);
   bindRowFields(acart, document.getElementsByClassName("itemRow"));
+  bind(document.getElementById("checkoutButton"), "click", function() {
+    return console.log("CHECKOUT CLICK");
+  });
   return acart;
 };
 
@@ -169,7 +172,7 @@ Cart = function() {
     return tr;
   };
   initElement = function() {
-    var itemkey, obj, pc, qty, subtotalRow, table, tableBody, tableFoot, tdCost, tdWord, totalCost, totalQty;
+    var checkoutButton, checkoutTD, checkoutTR, itemkey, obj, pc, qty, subtotalRow, table, tableBody, tableFoot, tdCost, tdWord, totalCost, totalQty;
     totalCost = 0;
     totalQty = 0;
     console.log("INIT ELEMENT");
@@ -199,6 +202,15 @@ Cart = function() {
     subtotalRow.appendChild(tdWord);
     subtotalRow.appendChild(tdCost);
     tableBody.appendChild(subtotalRow);
+    checkoutTR = document.createElement("TR");
+    checkoutTD = document.createElement("TD");
+    checkoutButton = document.createElement("INPUT");
+    checkoutButton.setAttribute("id", "checkoutButton");
+    checkoutButton.setAttribute("type", "submit");
+    checkoutButton.setAttribute("value", "Check Out");
+    checkoutTD.appendChild(checkoutButton);
+    checkoutTR.appendChild(checkoutTD);
+    tableBody.appendChild(checkoutTR);
     myElement = table;
     return myElement;
   };
@@ -210,7 +222,10 @@ Cart = function() {
       document.getElementById(parentDivName).removeChild(myElement);
       myElement = null;
       document.getElementById(parentDivName).appendChild(initElement());
-      return bindRowFields(cart, document.getElementsByClassName("itemRow"));
+      bindRowFields(cart, document.getElementsByClassName("itemRow"));
+      return bind(document.getElementById("checkoutButton"), "click", function() {
+        return console.log("CHECKOUT CLICK");
+      });
     }
   };
   return {
