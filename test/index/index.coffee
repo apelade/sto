@@ -15,3 +15,20 @@ describe "index", ->
         vars.title.should.equal "The Whitney Portal"
 #          vars.items.should.eql []
     routes.index(req, res)
+
+describe "nextTen", ->
+  it "should get some catalog items",  ->
+    $ = require "jquery"
+    $.ajax(
+      type:"GET"
+      url:"http://localhost:3000/nextTen?page=0&limit=10"
+      dataType:"json"
+    )
+    .success (res) ->
+      console.log "nextTen results.length ", res.length
+      console.log "RRRRRRRRRRRRRRRRRRRRRRRRRRES"
+      console.log res
+    .error (err) ->
+      console.log "nextTen error ", err
+    .complete (xhr, status) ->
+      console.log "nextTen complete with status ", status
