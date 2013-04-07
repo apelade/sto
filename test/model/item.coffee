@@ -40,3 +40,21 @@ describe "item", ->
                 should.not.exist(itemfound)
                 console.log "Remove. Item in db after remove? " + itemfound?
                 done()
+                
+  for key, path of Item.schema.paths
+    console.log key
+    do (key) ->
+      console.log "Key is ", key
+      req =
+        params:{}
+        body:{}
+        url: "/item/" + key
+      req.params[key] = "test"
+      res = 
+        render: (view, vars) ->
+          if vars?.items?.length?
+            console.log "Items found for ",key ,":",req.params[key]," == ",vars.items.length
+            
+          view.should.equal "items"
+      func = routes[key]
+      func(req, res)                

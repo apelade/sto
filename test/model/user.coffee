@@ -42,23 +42,23 @@ describe "user", ->
                 console.log "Remove. User in db after remove? " + userfound?
                 done()
 
-   for key, path of User.schema.paths
-     console.log key
-     do (key) ->
-       console.log "Key is ", key
-       req =
-         params:{}
-         body:{}
-         url: "/user/" + key
-       req.params[key] = "ed"
-       res = 
-         render: (view, vars) ->
-          console.log "USERS found: ", vars.users
+  for key, path of User.schema.paths
+    console.log key
+    do (key) ->
+      console.log "Key is ", key
+      req =
+        params:{}
+        body:{}
+        url: "/user/" + key
+      req.params[key] = "ed"
+      res = 
+        render: (view, vars) ->
+#         console.log "USERS found: ", vars.users
+          if vars?.users?.length?
+            console.log "Users found for " + key + ":"+ "ed == ", vars.users.length
           view.should.equal "users"
-       console.log "REQ: " , req
-       console.log "RES: " , res
-       func = routes[key]
-       func(req, res)
+      func = routes[key]
+      func(req, res)
 
 
   

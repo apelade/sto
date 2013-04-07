@@ -34,3 +34,19 @@ describe "tag", ->
                 console.log "Removed tag found anymore? " + tagfound?
                 done()
 
+  for key, path of Tag.schema.paths
+    console.log key
+    do (key) ->
+      console.log "Key is ", key
+      req =
+        params:{}
+        body:{}
+        url: "/tag/" + key
+      req.params[key] = "test"
+      res = 
+        render: (view, vars) ->
+          if vars?.tags?.length?
+            console.log "Tags found for ",key,":",req.params[key]," == ", vars.tags.length
+          view.should.equal "tags"
+      func = routes[key]
+      func(req, res)  
