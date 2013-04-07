@@ -60,6 +60,11 @@ bindRowFields = (cart, itemRows) ->
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
 
+#checkout = () ->
+#   
+#
+
+
 initCart = () ->
   acart = new Cart()
   element = acart.getElement()
@@ -67,6 +72,9 @@ initCart = () ->
   parentDivName = "cartDiv"
   document.getElementById(parentDivName).appendChild(element)
   bindRowFields(acart, document.getElementsByClassName("itemRow"))
+  bind(document.getElementById("checkoutButton"), "click", ->
+    console.log "CHECKOUT CLICK"
+  )
   return acart
 
 
@@ -191,6 +199,7 @@ Cart = () ->
         tableBody.appendChild makeRow(obj, qty)
         totalCost += (Number(qty) * Number(obj.price))
         totalQty += Number(qty)
+        
     subtotalRow = document.createElement "TR"
     tdWord = document.createElement "TD"
     tdWord.setAttribute "colspan", "5"
@@ -202,6 +211,17 @@ Cart = () ->
     subtotalRow.appendChild tdWord
     subtotalRow.appendChild tdCost
     tableBody.appendChild subtotalRow
+    
+    checkoutTR = document.createElement "TR"
+    checkoutTD = document.createElement "TD"
+    checkoutButton = document.createElement "INPUT"
+    checkoutButton.setAttribute "id", "checkoutButton"
+    checkoutButton.setAttribute "type", "submit"
+    checkoutButton.setAttribute "value", "Check Out"
+    checkoutTD.appendChild checkoutButton
+    checkoutTR.appendChild checkoutTD    
+    tableBody.appendChild checkoutTR
+    
     myElement = table
     return myElement
       
@@ -215,6 +235,9 @@ Cart = () ->
       myElement = null
       document.getElementById(parentDivName).appendChild(initElement())
       bindRowFields(cart, document.getElementsByClassName("itemRow"))
+      bind(document.getElementById("checkoutButton"), "click", ->
+        console.log "CHECKOUT CLICK"
+      )
       
   # return public methods, otherwise error message is "Object has no method x"
   return {
