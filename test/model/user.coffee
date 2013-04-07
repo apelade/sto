@@ -43,19 +43,16 @@ describe "user", ->
                 done()
 
   for key, path of User.schema.paths
-    console.log key
     do (key) ->
-      console.log "Key is ", key
       req =
         params:{}
         body:{}
         url: "/user/" + key
-      req.params[key] = "ed"
+      req.params[key] = "test"
       res = 
         render: (view, vars) ->
-#         console.log "USERS found: ", vars.users
           if vars?.users?.length?
-            console.log "Users found for " + key + ":"+ "ed == ", vars.users.length
+            console.log "Users found for ",key,":",req.params[key]," == ", vars.users.length
           view.should.equal "users"
       func = routes[key]
       func(req, res)

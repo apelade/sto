@@ -35,9 +35,7 @@ describe "tag", ->
                 done()
 
   for key, path of Tag.schema.paths
-    console.log key
     do (key) ->
-      console.log "Key is ", key
       req =
         params:{}
         body:{}
