@@ -3,19 +3,21 @@
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 
-
-for key, path of Item.schema.paths
-  module.exports[key] = do (key) ->
-    afunc = (req, res) ->
-      myKey = key
-      myParam = req.params[myKey]
-      constraint = {}
-      constraint[myKey] = myParam
-      Item.find constraint, (err, items) ->
-        if not items?
-          items = []    
-        res.render "items",
-          items: items
+# Supply a query route for each mongoose model object field.
+module.exports.queryRoutes = () ->
+  for key, path of Item.schema.paths
+    module.exports[key] = do (key) ->
+      afunc = (req, res) ->
+        myKey = key
+        myParam = req.params[myKey]
+        constraint = {}
+        constraint[myKey] = myParam
+        Item.find constraint, (err, items) ->
+          if not items?
+            items = []    
+          res.render "items",
+            items: items
+module.exports.queryRoutes()
 
 # show page to add items
 module.exports.add = (req, res) ->
@@ -38,3 +40,4 @@ module.exports.save = (req, res) ->
     if res?
       res.redirect "/item/add"
     return item
+    
