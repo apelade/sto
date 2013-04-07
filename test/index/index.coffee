@@ -26,8 +26,7 @@ describe "nextTen", ->
     )
     .success (res) ->
       console.log "nextTen results.length ", res.length
-      console.log "RRRRRRRRRRRRRRRRRRRRRRRRRRES"
-      console.log res
+      console.log "Next ten results ", res
     .error (err) ->
       console.log "nextTen error ", err
     .complete (xhr, status) ->
