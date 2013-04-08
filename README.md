@@ -1,4 +1,4 @@
-## Sto!
+## Sto! Exploring how to structure a node store app.
 
 						All-CoffeeScript Node.js project in c9.io IDE
                         Multi-platform including c9.io, Linux, Windows
@@ -100,7 +100,7 @@ __`cake server` or `coffee app.coffee`__
 
 ### Design ###
 #### Server ####
-- Express server is defined in app.coffee and connects url paths to execute
+- The Express server is defined in app.coffee. They connect url paths to execute
   functions in route files, which generate pages and redirects in response.
 - Multiple routes files handle get and post of common Mongoose model CRUD ops.
 - These are standardized toward possible future automation.
