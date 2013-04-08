@@ -1,4 +1,5 @@
-## Sto! Exploring how to structure a node store app.
+## Sto!
+#### Exploring how to structure a node store app.
 
 						All-CoffeeScript Node.js project in c9.io IDE
                         Multi-platform including c9.io, Linux, Windows
