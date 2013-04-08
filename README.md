@@ -25,6 +25,7 @@ __`cake install` or `npm install`__
 __`cake test`__
 
 - Startup args in the Cakefile configure testing options.
+- Currently nees model objects in db with "test" for all fields
 
 
 
