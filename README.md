@@ -101,8 +101,8 @@ __`cake server` or `coffee app.coffee`__
 
 ### Design ###
 #### Server ####
-- The Express server is defined in app.coffee. They connect url paths to execute
-  functions in route files, which generate pages and redirects in response.
+- The Express server is defined in app.coffee, connecting url paths to execute
+  functions from route files that deliver query results in pages, and redirects.
 - Multiple routes files handle get and post of common Mongoose model CRUD ops.
 - These are standardized toward possible future automation.
 - These CRUD routes (and others) enforce login by using the optional checkUser
