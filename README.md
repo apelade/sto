@@ -5,7 +5,7 @@
                         Multi-platform including c9.io, Linux, Windows
                                 Fresh Libs  ~  Freely Hosted
 
-#### Since this is a learning project, I implement __before__ looking at the way others do it or using a package. That shows in project stucture, crud support, login, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
+#### Since this is a learning project, I implement __before__ looking at the way others do it or using a package. That shows in project stucture, crud support, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
 
 
 
@@ -27,7 +27,7 @@ __`cake install` or `npm install`__
 __`cake test`__
 
 - Startup args in the Cakefile configure testing options.
-- Currently nees model objects in db with "test" for all fields
+- Currently needs model objects in db with "test" for all fields
 
 
 
