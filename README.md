@@ -5,7 +5,7 @@
                         Multi-platform including c9.io, Linux, Windows
                                 Fresh Libs  ~  Freely Hosted
 
-#### Since this is a learning project, I implement BEFORE looking at the way
+#### Since this is a learning project, I implement __before__ looking at the way
 others do it or using a package. That shows in project stucture, crud support,
 login, etc. Grappling with these basic problems gives one a good feel for the
 platform while exercising creative problem solving, but this is not a recipe of
