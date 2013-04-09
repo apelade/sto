@@ -29,5 +29,5 @@
     "superagent": "0.14.0",    
     "js2coffee": "~0.2.0"
   },
-  "engine": "node 0.8.9"
+  "engine": "node 0.10.3"
 }
