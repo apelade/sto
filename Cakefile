@@ -23,7 +23,8 @@ task "install", "finish installing dependencies: ./node_modules", ->
   exec "
     #{NPM} install
   ", (err, output) ->
-    throw err if err
+    if err
+      console.log err
     console.log output
     
 task "test", "run tests", ->
@@ -34,10 +35,11 @@ task "test", "run tests", ->
     --compilers coffee:coffee-script
     --reporter #{REPORTER}
     --growl
-    --require coffee-script 
+    --require coffee-script
     --colors
   ", (err, output) ->
-    throw err if err
+    if err
+      console.log err
     console.log output
 
 # Currently have to enter 'ps -ef | grep coffee' to get PIDs and stop with kill.
@@ -46,7 +48,8 @@ task "server", "start the server", ->
   exec "
     #{COFFEE} #{RUNFILE}
   ", (err, output) ->
-    throw err if err
+    if err
+      console.log err
     console.log output
 
 
