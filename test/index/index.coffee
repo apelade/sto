@@ -14,8 +14,12 @@ describe "nextTen", ->
   it "should get some catalog items", ->
     # todo 1 Note currently needs to be required in /test/index.coffee as well!
     sa = require "superagent"
+    # process.env is used running in c9.io
+    myhost = process.env.IP or "localhost"
+    myport = process.env.PORT or "3000"
+    myuri = "http://" + myhost + ":" + myport + "/nextTen?page=0&limit=10"
     sa.agent()
-    .get("http://localhost:3000/nextTen?page=0&limit=10")
+    .get(myuri)
     .type("json")
     .set('Accept', 'application/json')    
     .end((data) ->
