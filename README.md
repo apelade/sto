@@ -1,11 +1,10 @@
-## Sto!
-#### Exploring how to structure a node store app.
-
 						All-CoffeeScript Node.js project in c9.io IDE
                         Multi-platform including c9.io, Linux, Windows
                                 Fresh Libs  ~  Freely Hosted
 
-#### Since this is a learning project, I implement *before* looking at the way others do it or using a package. That shows in project stucture, crud, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
+## Sto!
+#### Exploring how to structure a node store app.
+### Since this is a learning project, I implement *before* looking at the way others do it or using a package. That shows in project stucture, crud, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
 
 
 
@@ -26,8 +25,9 @@ __`cake install` or `npm install`__
 ### Test
 __`cake test`__
 
+- Currently requires running server. See below.
+- Currently needs model objects in db with "test" for all fields, hardcoded.
 - Startup args in the Cakefile configure testing options.
-- Currently needs model objects in db with "test" for all fields
 
 
 
