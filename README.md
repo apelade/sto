@@ -4,7 +4,7 @@
 
 ## Sto!
 #### Exploring how to structure a node store app.
-### Because this is a learning project, I implement certain things *before* looking at the way others do it or using a package. That shows in project stucture, crud, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
+### Because this is a learning project, I implement certain things *before* looking at the way others do it or using a package. That shows in project stucture, crud, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not intended to be a recipe of best practices.
 
 
 
