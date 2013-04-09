@@ -5,7 +5,7 @@
                         Multi-platform including c9.io, Linux, Windows
                                 Fresh Libs  ~  Freely Hosted
 
-#### Since this is a learning project, I implement __before__ looking at the way others do it or using a package. That shows in project stucture, crud support, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
+#### Since this is a learning project, I implement *before* looking at the way others do it or using a package. That shows in project stucture, crud, login, the client, etc. Grappling with these basic problems gives one a good feel for the platform while exercising creative problem solving, but this is not a recipe of best practices.
 
 
 
@@ -104,8 +104,8 @@ __`cake server` or `coffee app.coffee`__
 
 ### Design ###
 #### Server ####
-- The Express server is defined in app.coffee, connecting url paths to execute
-  functions from route files that deliver query results in pages, and redirects.
+- Express servers work by connecting url paths to execute functions from
+  route files that deliver query results in pages, and redirects.
 - Multiple routes files handle get and post of common Mongoose model CRUD ops.
 - These are standardized toward possible future automation.
 - These CRUD routes (and others) enforce login by using the optional checkUser

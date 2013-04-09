@@ -1,6 +1,6 @@
 # todo 1, switch to example of test dirs, otherwise have to do this here
 # AND in /test/index/index.coffee
-sa = require "superagent"
+require "superagent"
 
 describe "overall test", ->
   it "should be the entry point to scripting test execution", ->
