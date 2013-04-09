@@ -12,10 +12,12 @@
 ### Install
 __`cake install` or `npm install`__
 
-- Size: Less than 10 MB with libs at this point.
+- Size: Less than 20 MB with libs at this point.
 - Node and npm are required: download and install from http://nodejs.org/
 - Unzip to a location or checkout from github. You may need to be admin.
 - On a command prompt, run this command in the install dir to fetch libraries.
+- It should skip optionalDependencies bcrypt and jquery if they fail.
+- Node jquery is commented-out, using superagent.
 - If bcrypt is installed it is used, defaults to crypto.
 - Note that passwords are not compatible/portable between the two.
 
