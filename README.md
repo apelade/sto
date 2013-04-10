@@ -81,26 +81,26 @@ __`cake server` or `coffee app.coffee`__
 
 
 ### File ###
-	
-	Cakefile		: [cake](http://jashkenas.github.io/coffee-script/documentation/docs/cake.html) command runner
-	  
-	app.coffee		: entry point and config for running the [express](http://expressjs.com/) server
 
-    cloudnine-start.js : bootstrap launcher file to run [coffeescript](http://coffeescript.org/) on c9.io  	
+- Cakefile		: [cake](http://jashkenas.github.io/coffee-script/documentation/docs/cake.html) command runner
 	  
-	packages.json	: [npm](https://npmjs.org/) dependency file list
+- app.coffee	: entry point and config for running the [express](http://expressjs.com/) server
+
+- cloudnine-start.js : bootstrap launcher file to run [coffeescript](http://coffeescript.org/) on c9.io  	
+	  
+- packages.json	: [npm](https://npmjs.org/) dependency file list
 		
-	README.md		: this  	
+- README.md		: this  	
 	
-	model/			: [mongoose](http://mongoosejs.com/) models directory
+- model/		: [mongoose](http://mongoosejs.com/) models directory
 	
-	public/			: files to be served, image, script, etc
+- public/		: files to be served, image, script, etc
 	
-	route/ 			: routing files (called from app.coffee)
+- route/ 		: routing files (called from app.coffee)
 	
-	test/			: [mocha](https://github.com/visionmedia/mocha) and [should](https://github.com/visionmedia/should.js/) test files in tests.coffee
+- test/			: [mocha](https://github.com/visionmedia/mocha) and [should](https://github.com/visionmedia/should.js/) test files in tests.coffee
 	
-	view/			: [jade](http://jade-lang.com/) view templates directory
+- view/			: [jade](http://jade-lang.com/) view templates directory
 
 
 
