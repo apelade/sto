@@ -18,6 +18,7 @@ app.configure ->
   app.use app.router
   app.use express["static"](__dirname + "/public")
 
+# todo 1 mongo connection fails occasionally, add reconnect code or forever?
 app.configure "development", ->
   mongoose.connect 'mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb'
   app.use express.errorHandler(
@@ -38,12 +39,14 @@ checkUser = (req,res,next) ->
     next()
 
 # routes
+app.get "/index*|/$", route.index
+app.get "/nextTen", route.ajaxNextTen
 app.post "/checkout", route.ajaxCheckout
-app.get  "/index*|/$", route.index
-app.get  "/nextTen", route.ajaxNextTen
+
 # called from login_form as a result of checkUser
 userRoutes = require "./route/user.coffee"
 app.post "/login*:path?", userRoutes.login
+
 # routes for mongoose models in models dir, protected by checkUser
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
@@ -56,14 +59,15 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
     for file in files
       words = file.split "."    
       if words?[1] is "coffee"
-        modelName = words[0].toLowerCase()
-        modelObj = require "./route/"+modelName+".coffee"
+        modName = words[0].toLowerCase()
+        modObj = require "./route/"+modName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
-          
-          app[reqMethName] "/"+modelName+"/"+funcName, checkUser, modelObj[funcName]
+          path = "/"+modName+"/"+funcName
+          console.log reqMethName, path
+          app[reqMethName] path, checkUser, modObj[funcName]
           # To skip checkUser, uncomment this line and comment out above
-#          app[reqMethName] "/"+modelName+"/"+funcName, modelObj[funcName]
+#          app[reqMethName] "/"+modName+"/"+funcName, modObj[funcName]
         
         # add get routes for mongoose model field query paths
         mod = require "./model/"+words[0]+".coffee"
@@ -71,10 +75,15 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         for pathName, path of modPaths
           if pathName not in ["password", "salt"]
             extra = "/:"+pathName+"?"
-            console.log "path == " + "/"+modelName+"/"+pathName+extra 
-            app.get "/"+modelName+"/"+pathName+extra, checkUser, modelObj[pathName]  
+            fullpath = "/"+modName+"/"+pathName+extra
+            console.log "get " + "/"+modName+"/"+pathName+extra 
+            app.get fullpath, checkUser, modObj[pathName]  
   catch err
     console.log err if err?
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
+  for route in app.routes.get
+    console.log route.method, route.path
+  for route in app.routes.post
+    console.log route.method, route.path   
