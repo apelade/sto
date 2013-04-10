@@ -40,8 +40,7 @@ module.exports =
       res.end( returnObjectString )
  
   ajaxCheckout: (req, res) ->
-    console.log "AJAX CHECKOUT ", req if req
-#    console.log "AJAX CHECKOUT ", req.body if req?.body
+    console.log "AJAX CHECKOUT ", req.body if req?.body
     if req?.body?
     # It would redirect to a print this page for your records invoice page
       res.writeHead(200, {'Content-Type': 'application/json'})
