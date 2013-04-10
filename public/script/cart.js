@@ -67,7 +67,6 @@ initCart = function() {
   document.getElementById(parentDivName).appendChild(element);
   bindRowFields(acart, document.getElementsByClassName("itemRow"));
   bind(document.getElementById("checkoutButton"), "click", function() {
-    console.log("CHECKOUT CLICK");
     return $.post("/checkout", acart.pullCart(), function(data) {
       return console.log("DATA", data);
     });
@@ -226,13 +225,7 @@ Cart = function() {
       document.getElementById(parentDivName).removeChild(myElement);
       myElement = null;
       document.getElementById(parentDivName).appendChild(initElement());
-      bindRowFields(cart, document.getElementsByClassName("itemRow"));
-      return bind(document.getElementById("checkoutButton"), "click", function() {
-        console.log("CHECKOUT CLICK");
-        return $.post("/checkout", cartObj, function(data) {
-          return console.log("DATA", data);
-        });
-      });
+      return bindRowFields(cart, document.getElementsByClassName("itemRow"));
     }
   };
   return {

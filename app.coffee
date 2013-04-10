@@ -60,8 +60,12 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
         modelObj = require "./route/"+modelName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
+          
           app[reqMethName] "/"+modelName+"/"+funcName, checkUser, modelObj[funcName]
-        # add get routes for query on model fields
+          # To skip checkUser, uncomment this line and comment out above
+#          app[reqMethName] "/"+modelName+"/"+funcName, modelObj[funcName]
+        
+        # add get routes for mongoose model field query paths
         mod = require "./model/"+words[0]+".coffee"
         modPaths = mod.schema.paths
         for pathName, path of modPaths

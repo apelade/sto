@@ -69,7 +69,6 @@ initCart = () ->
   document.getElementById(parentDivName).appendChild(element)
   bindRowFields(acart, document.getElementsByClassName("itemRow"))
   bind(document.getElementById("checkoutButton"), "click", ->
-    console.log "CHECKOUT CLICK"
     $.post "/checkout", acart.pullCart(), (data) ->
       console.log "DATA", data
   )
@@ -234,11 +233,6 @@ Cart = () ->
       myElement = null
       document.getElementById(parentDivName).appendChild(initElement())
       bindRowFields(cart, document.getElementsByClassName("itemRow"))
-      bind(document.getElementById("checkoutButton"), "click", ->
-        console.log "CHECKOUT CLICK"
-        $.post "/checkout", cartObj, (data) ->
-          console.log "DATA", data
-      )
       
   # return public methods, otherwise error message is "Object has no method x"
   return {
