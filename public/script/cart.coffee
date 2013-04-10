@@ -74,6 +74,8 @@ initCart = () ->
   bindRowFields(acart, document.getElementsByClassName("itemRow"))
   bind(document.getElementById("checkoutButton"), "click", ->
     console.log "CHECKOUT CLICK"
+    $.post "/checkout", acart.pullCart(), (data) ->
+      console.log "DATA", data
   )
   return acart
 
@@ -130,6 +132,7 @@ Cart = () ->
         cartObj[id]["qty"] = Number(quantity)
     else # (! cartObj[id]?)
       cartObj[id]["obj"] =
+        id:id #redundant
         name:name
         model:model
         info:info
@@ -237,10 +240,13 @@ Cart = () ->
       bindRowFields(cart, document.getElementsByClassName("itemRow"))
       bind(document.getElementById("checkoutButton"), "click", ->
         console.log "CHECKOUT CLICK"
+        $.post "/checkout", cartObj, (data) ->
+          console.log "DATA", data
       )
       
   # return public methods, otherwise error message is "Object has no method x"
   return {
+    pullCart
     addItem
     setItemQuantity
     toString

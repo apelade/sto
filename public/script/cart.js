@@ -67,7 +67,10 @@ initCart = function() {
   document.getElementById(parentDivName).appendChild(element);
   bindRowFields(acart, document.getElementsByClassName("itemRow"));
   bind(document.getElementById("checkoutButton"), "click", function() {
-    return console.log("CHECKOUT CLICK");
+    console.log("CHECKOUT CLICK");
+    return $.post("/checkout", acart.pullCart(), function(data) {
+      return console.log("DATA", data);
+    });
   });
   return acart;
 };
@@ -124,6 +127,7 @@ Cart = function() {
       }
     } else {
       cartObj[id]["obj"] = {
+        id: id,
         name: name,
         model: model,
         info: info,
@@ -224,11 +228,15 @@ Cart = function() {
       document.getElementById(parentDivName).appendChild(initElement());
       bindRowFields(cart, document.getElementsByClassName("itemRow"));
       return bind(document.getElementById("checkoutButton"), "click", function() {
-        return console.log("CHECKOUT CLICK");
+        console.log("CHECKOUT CLICK");
+        return $.post("/checkout", cartObj, function(data) {
+          return console.log("DATA", data);
+        });
       });
     }
   };
   return {
+    pullCart: pullCart,
     addItem: addItem,
     setItemQuantity: setItemQuantity,
     toString: toString,

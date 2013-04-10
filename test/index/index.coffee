@@ -1,5 +1,7 @@
 routes   = require "../../route/index"
 
+
+    
 describe "index", ->
   it "should show index page with items", ->
     req = null
@@ -26,8 +28,8 @@ describe "nextTen", ->
       len = JSON.parse(data.text).length     
       console.log " Next Ten results ", len
     )
-    
-    
+############## jquery version of same ################
+#  
 #    $ = require "jquery"
 #    $.ajax(
 #      type:"GET"
@@ -41,3 +43,54 @@ describe "nextTen", ->
 #      console.log "nextTen error ", err
 #    .complete (xhr, status) ->
 #      console.log "nextTen complete with status ", status
+########################################
+
+describe "checkout", ->
+  it "should checkout as if button clicked", ->
+  
+  cart = {}
+    # Called when user changes qty field in cart
+  addItem = (id, name, model, info, price) ->
+    # cart stores items by key = item.id
+    cartItem = cart[id]
+    if ! cartItem?
+      cartItem = {}
+      qty = 1
+      cartItem["obj"] =
+        id:id
+        name:name
+        model:model
+        info:info
+        price:price
+      cartItem["qty"] = qty
+    else
+      console.log cartItem.qty
+      numInCart = Number(cartItem.qty)
+      cartItem["qty"] = numInCart + 1
+    cart[id] = cartItem  
+ 
+  addItem("123", "Ted", "1996 Spring", "best in wet weather", 25.25)
+  addItem("222", "Romaine", "1999 Winter", "cute", 11.11)
+  addItem("333", "Jedi-REPEATER", "EZ open", "bargain", 12.12)
+  addItem("444", "Franklin", "Wacky Fun", "witty you are", 33.33)
+  addItem("555", "Shawna", "1970 style", "best all around", 77.00)
+  addItem("555", "Shawna", "1970 style", "best all around", 77.00)
+  addItem("333", "Jedi-REPEATER", "EZ open", "bargain", 12.12)
+  addItem("333", "Jedi-REPEATER", "EZ open", "bargain", 12.12)
+  
+  sa = require "superagent"
+  # process.env is used running in c9.io
+  myhost = process.env.IP or "localhost"
+  myport = process.env.PORT or "3000"
+  myuri = "http://" + myhost + ":" + myport + "/checkout"
+  sa.agent()
+  .post(myuri)
+  .type("json")
+  .send(cart)
+  .set('Accept', 'application/json')    
+  .end((data) ->
+    # currently ships us back the same thing, would do paypal conf redirect, etc
+    retcart = JSON.parse(data.res.text)
+    console.log "\nCheckout. Number of Unique items. UNIQUE. ", Object.keys(retcart).length
+  )
+

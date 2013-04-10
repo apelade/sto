@@ -38,6 +38,7 @@ checkUser = (req,res,next) ->
     next()
 
 # routes
+app.post "/checkout", route.ajaxCheckout
 app.get  "/index*|/$", route.index
 app.get  "/nextTen", route.ajaxNextTen
 # called from login_form as a result of checkUser
