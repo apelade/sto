@@ -60,10 +60,6 @@ bindRowFields = (cart, itemRows) ->
 # used by refresh,  todo, get rid of at some pt
 parentDivName = ""
 
-#checkout = () ->
-#   
-#
-
 
 initCart = () ->
   acart = new Cart()
