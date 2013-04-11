@@ -41,37 +41,20 @@ module.exports =
       returnObjectString = JSON.stringify(returnObject)
       res.writeHead(200, {'Content-Type': 'text/plain'})
       res.end( returnObjectString )
- 
- 
 
   
-  paypalConfirm: (req, origres) ->
-    console.log "paypalConfirm", req.query
-#    console.log "paypalConfirm REQ: ",req
-#    console.log "paypalConfirm RES: ", res
+  paypalConfirm: (req, origRes) ->
+#    console.log "paypalConfirm", req.query
     if req.query?
       payper = require "../lib/payper"
       fakepayer =
         payer_id: req.query.PayerID
-#      console.log "querytoken", req.query.token
-#      console.log "pending", pending
-      
       payment_id = pending[req.query.token]
-#      console.log "payment_id", payment_id
-#      console.log "auth_token", auth_token
-      
       #todo a local getToken function
       payper.executePayment payment_id, fakepayer, auth_token, (req, res) ->
-        origres.render "paypal_complete",
+        origRes.render "paypal_complete",
           data: JSON.stringify(res.body)
-#      { token: 'EC-0HJ17629X9476391M', PayerID: 'N428HMW29J6SQ' }
-#    console.log "paypalConfirm REQ: ",req
-#    console.log "paypalConfirm RES: ", res
-    
- 
-#  paypalComplete: (req, res) ->
-#    console.log "paypalCompleted"
-#    res.end()
+
     
   ajaxCheckout: (req, res) ->
     console.log "AJAX CHECKOUT ", req.body if req?.body
@@ -83,7 +66,7 @@ module.exports =
         console.log err if err? 
         token = data.body.access_token
         console.log "Token == ", token
-        # todo 1 where to keep this -- good for 8 hrs.
+        # todo 1 where to keep this -- good for 8 hrs. Cron credentials?
         auth_token = token
         host = process.env.IP or 'localhost'
         port = process.env.PORT or '3000'
@@ -113,20 +96,20 @@ module.exports =
           Create a payment with the test object
         ### 
         
-#        {"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0HJ17629X9476391M","rel":"approval_url","method":"REDIRECT"},{"href":"http
         payper.createPayment fakepayment, token, (err,result) ->
           if err?
             console.log "CREATE PAYMENT error : ", err
+          # To eventually execute a payment, we need the payment id but only get
+          # a transaction token in params from the return_url callback above.
+          # In app.coffee, that route is mapped to paypalConfirm function above.
+          # So I'll stash it here and look it up in paypalConfirm.
+          # This activity should be in the db in a real app.
           linkstr = result.body.links[1].href.toString()
           if linkstr.indexOf("token=") > -1
             temptoken = linkstr.substr(linkstr.indexOf("token=")+6)
-            console.log "TT", temptoken
-            console.log "TV", result.body.id
             pending[temptoken] = result.body.id
-            console.log "pending", pending
-            
           stringbody = JSON.stringify(result.body)
-          console.log stringbody
+#          console.log stringbody
           res.writeHead(200, {'Content-Type': 'application/json'})
           res.end( stringbody )
 
