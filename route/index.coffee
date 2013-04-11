@@ -2,6 +2,8 @@ Tag = require "../model/Tag"
 Item = require "../model/Item"
 User = require "../model/User"
 module_exist = require "./module_exist.coffee"
+payper = require "./payper"
+
 bcrypt = null
 SALT_WORK_FACTOR = 10
 if module_exist.found("bcrypt")
@@ -45,7 +47,7 @@ module.exports =
   paypalConfirm: (req, origRes) ->
 #    console.log "paypalConfirm", req.query
     if req.query?
-      payper = require "./payper"
+#      payper = require "./payper"
       fakepayer =
         payer_id: req.query.PayerID
       payment_id = pending[req.query.token]
@@ -58,7 +60,7 @@ module.exports =
   ajaxCheckout: (req, res) ->
     console.log "AJAX CHECKOUT ", req.body if req?.body
     if req?.body?
-      payper = require "./payper"
+#      payper = require "./payper"
       client_id = 'AfKBwBA_Npl3wGoWJ6VGOiyVHVAEZsfyH5_6jNf6i_xnDS0GksDX79BrMjSA'
       client_secret = 'EFovbhBrTtbR18sU8I_SCFXcuYd5iSdOszil-P-rFD9n5LXwKkHt_GyLuMGG'
       payper.getToken client_id, client_secret, (err, data) ->
