@@ -93,7 +93,7 @@ module.exports =
         }
         
         # Create a payment with the test object.
-        payper.createPayment fakepayment, token, (err,result) ->
+        payper.createPayment fakepayment, auth_token, (err,result) ->
           if err?
             console.log "CREATE PAYMENT error : ", err
           # To eventually execute a payment needs the payment id but only
