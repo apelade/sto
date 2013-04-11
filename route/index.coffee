@@ -43,11 +43,10 @@ module.exports =
       res.writeHead(200, {'Content-Type': 'text/plain'})
       res.end( returnObjectString )
 
-  
+  # Route: /paypal/confirm:query?
+  # called by paypal as callback of return_url below
   paypalConfirm: (req, origRes) ->
-#    console.log "paypalConfirm", req.query
     if req.query?
-#      payper = require "./payper"
       fakepayer =
         payer_id: req.query.PayerID
       payment_id = pending[req.query.token]
@@ -56,19 +55,18 @@ module.exports =
         origRes.render "paypal_complete",
           data: JSON.stringify(res.body)
 
-    
+  # Route: /checkout
+  # cart submission from checkout button in public/script/cart.js
   ajaxCheckout: (req, res) ->
     console.log "AJAX CHECKOUT ", req.body if req?.body
     if req?.body?
-#      payper = require "./payper"
       client_id = 'AfKBwBA_Npl3wGoWJ6VGOiyVHVAEZsfyH5_6jNf6i_xnDS0GksDX79BrMjSA'
       client_secret = 'EFovbhBrTtbR18sU8I_SCFXcuYd5iSdOszil-P-rFD9n5LXwKkHt_GyLuMGG'
       payper.getToken client_id, client_secret, (err, data) ->
         console.log err if err? 
-        token = data.body.access_token
-        console.log "Token == ", token
+        auth_token = data.body.access_token
+        console.log "Token == ", auth_token
         # todo 1 where to keep this -- good for 8 hrs. Cron credentials?
-        auth_token = token
         host = process.env.IP or 'localhost'
         port = process.env.PORT or '3000'
         return_url = 'http://' + host + ':' +  port + '/paypal/confirm' # confirmation page
@@ -93,17 +91,16 @@ module.exports =
             }
           ]
         }
-        ###
-          Create a payment with the test object
-        ### 
         
+        # Create a payment with the test object.
         payper.createPayment fakepayment, token, (err,result) ->
           if err?
             console.log "CREATE PAYMENT error : ", err
-          # To eventually execute a payment, we need the payment id but only get
-          # a transaction token in params from the return_url callback above.
+          # To eventually execute a payment needs the payment id but only
+          # a transaction token is received in params from the return_url
+          # callback above.
           # In app.coffee, that route is mapped to paypalConfirm function above.
-          # So I'll stash it here and look it up in paypalConfirm.
+          # Stash it here and look it up in paypalConfirm.
           # This activity should be in the db in a real app.
           linkstr = result.body.links[1].href.toString()
           if linkstr.indexOf("token=") > -1
