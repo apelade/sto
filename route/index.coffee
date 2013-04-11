@@ -4,12 +4,6 @@ User = require "../model/User"
 module_exist = require "./module_exist.coffee"
 payper = require "./payper"
 
-bcrypt = null
-SALT_WORK_FACTOR = 10
-if module_exist.found("bcrypt")
-  bcrypt = require "bcrypt"
-else
-  crypto = require "crypto"
 
 pending = {}
 auth_token = null
