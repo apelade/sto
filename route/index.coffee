@@ -9,6 +9,7 @@ pending = {}
 auth_token = null
 module.exports =
   
+  # Route: /index*|/$
   # home index page
   index : (req, res) ->
     Item.find {}, (err, items) ->
@@ -21,7 +22,8 @@ module.exports =
           title: "The Whitney Portal"
           tags: tags
           items: items 
-    
+  
+  # Route: /nextTen  
   # deliver some ajax data to catalog.coffee on click of nextTen button
   ajaxNextTen: (req, res) ->
     query = req.query
@@ -38,7 +40,7 @@ module.exports =
       res.end( returnObjectString )
 
   # Route: /paypal/confirm:query?
-  # called by paypal as callback of return_url below
+  # called by paypal as redirect from paypal.com in return_url below
   paypalConfirm: (req, origRes) ->
     if req.query?
       fakepayer =
