@@ -2,6 +2,13 @@ Tag = require "../model/Tag"
 Item = require "../model/Item"
 User = require "../model/User"
 module_exist = require "./module_exist.coffee"
+bcrypt = null
+SALT_WORK_FACTOR = 10
+if module_exist.found("bcrypt")
+  bcrypt = require "bcrypt"
+else
+  crypto = require "crypto"
+BASE_ITERATIONS = 10000
 payper = require "./payper"
 
 
@@ -61,12 +68,15 @@ module.exports =
       payper.getToken client_id, client_secret, (err, data) ->
         console.log err if err? 
         auth_token = data.body.access_token
-        console.log "Token == ", auth_token
+        console.log "Auth Token == ", auth_token
         # todo 1 where to keep this -- good for 8 hrs. Cron credentials?
-        host = process.env.IP or 'localhost'
-        port = process.env.PORT or '3000'
-        return_url = 'http://' + host + ':' +  port + '/paypal/confirm' # confirmation page
-        cancel_url = 'http://' + host + ':' +  port + '/' # cancel page
+        host_port = 'localhost:3000'
+        if process?.env?.IP?
+          host_port = 'sto.apelade.c9.io' 
+        
+        port = process.env.PORT or '3000' #  '8080' #
+        return_url = 'http://' + host_port + '/paypal/confirm' # confirmation page
+        cancel_url = 'http://' + host_port + '/' # cancel page
         
         fakepayment = {
           "intent":"sale",
