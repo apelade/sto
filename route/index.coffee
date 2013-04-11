@@ -8,7 +8,6 @@ if module_exist.found("bcrypt")
   bcrypt = require "bcrypt"
 else
   crypto = require "crypto"
- 
 
 pending = {}
 auth_token = null
@@ -109,7 +108,6 @@ module.exports =
             temptoken = linkstr.substr(linkstr.indexOf("token=")+6)
             pending[temptoken] = result.body.id
           stringbody = JSON.stringify(result.body)
-#          console.log stringbody
           res.writeHead(200, {'Content-Type': 'application/json'})
           res.end( stringbody )
 
