@@ -1,19 +1,11 @@
 Tag = require "../model/Tag"
 Item = require "../model/Item"
 User = require "../model/User"
-module_exist = require "./module_exist.coffee"
-bcrypt = null
-SALT_WORK_FACTOR = 10
-if module_exist.found("bcrypt")
-  bcrypt = require "bcrypt"
-else
-  crypto = require "crypto"
-BASE_ITERATIONS = 10000
 payper = require "./payper"
-
 
 pending = {}
 auth_token = null
+
 module.exports =
   
   # Route: /index*|/$
@@ -74,7 +66,6 @@ module.exports =
         if process?.env?.IP?
           host_port = 'sto.apelade.c9.io' 
         
-        port = process.env.PORT or '3000' #  '8080' #
         return_url = 'http://' + host_port + '/paypal/confirm' # confirmation page
         cancel_url = 'http://' + host_port + '/' # cancel page
         
