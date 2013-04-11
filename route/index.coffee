@@ -45,7 +45,7 @@ module.exports =
  
 
   
-  paypalConfirm: (req, res) ->
+  paypalConfirm: (req, origres) ->
     console.log "paypalConfirm", req.query
 #    console.log "paypalConfirm REQ: ",req
 #    console.log "paypalConfirm RES: ", res
@@ -61,14 +61,17 @@ module.exports =
 #      console.log "auth_token", auth_token
       
       #todo a local getToken function
-      payper.executePayment payment_id, fakepayer, auth_token
+      payper.executePayment payment_id, fakepayer, auth_token, (req, res) ->
+        origres.render "paypal_complete",
+          data: JSON.stringify(res.body)
 #      { token: 'EC-0HJ17629X9476391M', PayerID: 'N428HMW29J6SQ' }
 #    console.log "paypalConfirm REQ: ",req
 #    console.log "paypalConfirm RES: ", res
     
  
-  paypalOK: (req, res) ->
-    res.send("OK")
+#  paypalComplete: (req, res) ->
+#    console.log "paypalCompleted"
+#    res.end()
     
   ajaxCheckout: (req, res) ->
     console.log "AJAX CHECKOUT ", req.body if req?.body
@@ -84,7 +87,7 @@ module.exports =
         auth_token = token
         host = process.env.IP or 'localhost'
         port = process.env.PORT or '3000'
-        return_url = 'http://' + host + ':' +  port + '/paypal/ok' # confirmation page
+        return_url = 'http://' + host + ':' +  port + '/paypal/confirm' # confirmation page
         cancel_url = 'http://' + host + ':' +  port + '/user/add' # cancel page
         
         fakepayment = {

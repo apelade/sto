@@ -73,8 +73,8 @@ describe "checkout", ->
   addItem("222", "Romaine", "1999 Winter", "cute", 11.11)
   addItem("333", "Jedi-REPEATER", "EZ open", "bargain", 12.12)
   addItem("444", "Franklin", "Wacky Fun", "witty you are", 33.33)
-  addItem("555", "Shawna", "1970 style", "best all around", 77.00)
-  addItem("555", "Shawna", "1970 style", "best all around", 77.00)
+  addItem("555", "Shawna-REPEATER", "1970 style", "best all around", 77.00)
+  addItem("555", "Shawna-REPEATER", "1970 style", "best all around", 77.00)
   addItem("333", "Jedi-REPEATER", "EZ open", "bargain", 12.12)
   addItem("333", "Jedi-REPEATER", "EZ open", "bargain", 12.12)
   
@@ -93,4 +93,18 @@ describe "checkout", ->
     retcart = JSON.parse(data.res.text)
     console.log "\nCheckout. Number of Unique items. UNIQUE. ", Object.keys(retcart).length
   )
+  
+  
+#describe "paypal return", ->
+#  it "should receive redirect from paypal", ->
+# req =
+#  query:
+#    token:EC-5VR65326E2667870C
+#    PayerID:N428HMW29J6SQ
+# res = 
+#   render: (view, vars) ->
+#     view.should.equal "paypal_confirm"
+#     vars.title.should.equal "Confirmation Page"
+#          vars.items.should.eql []
+#    routes.paypal(req, res)      
 

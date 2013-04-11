@@ -43,7 +43,7 @@ app.get "/index*|/$", route.index
 app.get "/nextTen", route.ajaxNextTen
 app.post "/checkout", route.ajaxCheckout
 app.get "/paypal/confirm:query?", route.paypalConfirm
-app.get "/paypal/ok", route.paypalOK
+#app.get "/paypal/ok", route.paypalComplete
 
 # called from login_form as a result of checkUser
 userRoutes = require "./route/user.coffee"
