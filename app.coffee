@@ -42,6 +42,8 @@ checkUser = (req,res,next) ->
 app.get "/index*|/$", route.index
 app.get "/nextTen", route.ajaxNextTen
 app.post "/checkout", route.ajaxCheckout
+app.get "/paypal/confirm:query?", route.paypalConfirm
+app.get "/paypal/ok", route.paypalOK
 
 # called from login_form as a result of checkUser
 userRoutes = require "./route/user.coffee"
@@ -67,9 +69,9 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
           console.log reqMethName, path
           app[reqMethName] path, checkUser, modObj[funcName]
           # To skip checkUser, uncomment this line and comment out above
-#          app[reqMethName] "/"+modName+"/"+funcName, modObj[funcName]
+          # app[reqMethName] "/"+modName+"/"+funcName, modObj[funcName]
         
-        # add get routes for mongoose model field query paths
+        # add get routes that query mongoose model fields
         mod = require "./model/"+words[0]+".coffee"
         modPaths = mod.schema.paths
         for pathName, path of modPaths

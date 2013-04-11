@@ -68,7 +68,7 @@ initCart = function() {
   bindRowFields(acart, document.getElementsByClassName("itemRow"));
   bind(document.getElementById("checkoutButton"), "click", function() {
     return $.post("/checkout", acart.pullCart(), function(data) {
-      return console.log("DATA", data);
+      return top.location.href = data.links[1].href;
     });
   });
   return acart;

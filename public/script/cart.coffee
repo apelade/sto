@@ -70,7 +70,7 @@ initCart = () ->
   bindRowFields(acart, document.getElementsByClassName("itemRow"))
   bind(document.getElementById("checkoutButton"), "click", ->
     $.post "/checkout", acart.pullCart(), (data) ->
-      console.log "DATA", data
+      top.location.href = data.links[1].href
   )
   return acart
 
