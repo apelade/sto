@@ -71,7 +71,7 @@ module.exports =
         host = process.env.IP or 'localhost'
         port = process.env.PORT or '3000'
         return_url = 'http://' + host + ':' +  port + '/paypal/confirm' # confirmation page
-        cancel_url = 'http://' + host + ':' +  port + '/user/add' # cancel page
+        cancel_url = 'http://' + host + ':' +  port + '/' # cancel page
         
         fakepayment = {
           "intent":"sale",
