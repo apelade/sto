@@ -6,25 +6,27 @@ payper = require "./payper"
 pending = {}
 auth_token = null
 
-fakepayment = {
-  "intent":"sale",
-  "redirect_urls":{
-    "return_url":return_url,
-    "cancel_url":cancel_url
-  },
-  "payer":{
-    "payment_method":"paypal"
-  },
-  "transactions":[
-    {
-      "amount":{
-        "total":"7.49",
-        "currency":"USD"
-      },
-      "description":"This is the nice payment transaction description."
-    }
-  ]
-}
+fakePayment = (return_url, cancel_url, callback) ->
+  fakepayment = {
+    "intent":"sale",
+    "redirect_urls":{
+      "return_url":return_url,
+      "cancel_url":cancel_url
+    },
+    "payer":{
+      "payment_method":"paypal"
+    },
+    "transactions":[
+      {
+        "amount":{
+          "total":"7.49",
+          "currency":"USD"
+        },
+        "description":"This is the nice payment transaction description."
+      }
+    ]
+  }
+  callback(fakepayment or error)
         
 module.exports =
   
@@ -82,28 +84,29 @@ module.exports =
         auth_token = data.body.access_token
         console.log "Auth Token == ", auth_token
         # todo 1 where to keep this -- good for 8 hrs. Cron credentials?
-        host_port = 'localhost:3000'
-        if process?.env?.IP?
-          host_port = 'sto.apelade.c9.io' 
-        
+        host_port = "localhost:3000"
+        if process.env.IP?
+          host_port = 'sto.apelade.c9.io' # vs process.env.IP
         return_url = 'http://' + host_port + '/paypal/confirm' # confirmation page
         cancel_url = 'http://' + host_port + '/' # cancel page
         
         # Create a payment with the test object.
-        payper.createPayment fakepayment, auth_token, (err,result) ->
-          if err?
-            console.log "CREATE PAYMENT error : ", err
-          # To eventually execute a payment needs the payment id but only
-          # a transaction token is received in params from the return_url
-          # callback above.
-          # In app.coffee, that route is mapped to paypalConfirm function above.
-          # Stash it here and look it up in paypalConfirm.
-          # This activity should be in the db in a real app.
-          linkstr = result.body.links[1].href.toString()
-          if linkstr.indexOf("token=") > -1
-            temptoken = linkstr.substr(linkstr.indexOf("token=")+6)
-            pending[temptoken] = result.body.id
-          stringbody = JSON.stringify(result.body)
-          res.writeHead(200, {'Content-Type': 'application/json'})
-          res.end( stringbody )
-
+        fakePayment return_url, cancel_url, (fakepay) ->
+          payper.createPayment fakepay, auth_token, (err,result) ->
+            if err?
+              console.log "CREATE PAYMENT error : ", err
+            ###
+             To eventually execute a payment needs the payment id but only
+             a transaction token is received in params from the return_url
+             callback above.
+             In app.coffee, that route is mapped to paypalConfirm function above.
+             Stash it here and look it up in paypalConfirm.
+             This activity should be in the db in a real app.
+            ###
+            linkstr = result.body.links[1].href.toString()
+            if linkstr.indexOf("token=") > -1
+              temptoken = linkstr.substr(linkstr.indexOf("token=")+6)
+              pending[temptoken] = result.body.id
+            stringbody = JSON.stringify(result.body)
+            res.writeHead(200, {'Content-Type': 'application/json'})
+            res.end( stringbody )
