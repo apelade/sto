@@ -6,6 +6,26 @@ payper = require "./payper"
 pending = {}
 auth_token = null
 
+fakepayment = {
+  "intent":"sale",
+  "redirect_urls":{
+    "return_url":return_url,
+    "cancel_url":cancel_url
+  },
+  "payer":{
+    "payment_method":"paypal"
+  },
+  "transactions":[
+    {
+      "amount":{
+        "total":"7.49",
+        "currency":"USD"
+      },
+      "description":"This is the nice payment transaction description."
+    }
+  ]
+}
+        
 module.exports =
   
   # Route: /index*|/$
@@ -68,26 +88,6 @@ module.exports =
         
         return_url = 'http://' + host_port + '/paypal/confirm' # confirmation page
         cancel_url = 'http://' + host_port + '/' # cancel page
-        
-        fakepayment = {
-          "intent":"sale",
-          "redirect_urls":{
-            "return_url":return_url,
-            "cancel_url":cancel_url
-          },
-          "payer":{
-            "payment_method":"paypal"
-          },
-          "transactions":[
-            {
-              "amount":{
-                "total":"7.49",
-                "currency":"USD"
-              },
-              "description":"This is the nice payment transaction description."
-            }
-          ]
-        }
         
         # Create a payment with the test object.
         payper.createPayment fakepayment, auth_token, (err,result) ->
