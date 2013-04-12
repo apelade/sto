@@ -87,8 +87,8 @@ module.exports =
         host_port = "localhost:3000"
         if process.env.IP?
           host_port = 'sto.apelade.c9.io' # vs process.env.IP
-        return_url = 'http://' + host_port + '/paypal/confirm' # confirmation page
-        cancel_url = 'http://' + host_port + '/' # cancel page
+        return_url = 'http://' + host_port + '/paypal/confirm' # thank-you page
+        cancel_url = 'http://' + host_port + '/'
         
         # Create a payment with the test object.
         fakePayment return_url, cancel_url, (fakepay) ->
