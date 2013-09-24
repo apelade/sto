@@ -28,6 +28,7 @@ module.exports.add = (req, res) ->
 
 # handles form post
 module.exports.save = (req, res) ->
+  console.log req.body.tag
   tag = new Tag(req.body.tag)
   tag.save ->
     res.redirect "/tag/add"

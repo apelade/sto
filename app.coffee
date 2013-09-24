@@ -20,19 +20,20 @@ app.configure ->
 
 # todo 1 mongo connection fails occasionally, add reconnect code or forever?
 app.configure "development", ->
-  mongoose.connect 'mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb'
+  mongoose.connect CONNECT_STR = 'mongodb://sto_user:reverse@paulo.mongohq.com:10052/payper'
   app.use express.errorHandler(
     dumpExceptions: true
     showStack: true
   )
 
 app.configure "production", ->
-  mongoose.connect 'mongodb://sto_user:reverse@linus.mongohq.com:10083/mdb-prod'
+  mongoose.connect CONNECT_STR = 'mongodb://sto_user:reverse@paulo.mongohq.com:10052/payper-prod'
   app.use express.errorHandler()
 
-# Send user to login if they are accessing restricted routes
+# Send user to login when accessing restricted routes
 checkUser = (req,res,next) ->
   if !req.session?.user_id?
+    console.log "render login form"
     res.render "login_form",
       redirectPath : req.url
   else
@@ -41,7 +42,7 @@ checkUser = (req,res,next) ->
 # routes
 app.get "/index*|/$", route.index
 app.get "/nextTen", route.ajaxNextTen
-app.post "/checkout", route.ajaxCheckout
+app.post "/checkout", checkUser, route.ajaxCheckout
 app.get "/paypal/confirm:query?", route.paypalConfirm
 #app.get "/paypal/ok", route.paypalComplete
 
@@ -52,6 +53,7 @@ app.post "/login*:path?", userRoutes.login
 # routes for mongoose models in models dir, protected by checkUser
 fs = require "fs"
 fs.readdir (__dirname + '/model/'), (err,files) ->
+  console.log "FILES: ", files
   # map of request method types for each model function
   modMap =
     add:"get",
@@ -59,17 +61,19 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
 
   try
     for file in files
-      words = file.split "."    
-      if words?[1] is "coffee"
+      words = file.split "."
+      if (words[0] isnt "Order") and ( words?[1] is "coffee" )
         modName = words[0].toLowerCase()
         modObj = require "./route/"+modName+".coffee"
         for funcName of modMap
           reqMethName = modMap[funcName]
           path = "/"+modName+"/"+funcName
-          console.log reqMethName, path
+          #console.log reqMethName, path
           app[reqMethName] path, checkUser, modObj[funcName]
+            
+            
           # To skip checkUser, uncomment this line and comment out above
-          # app[reqMethName] "/"+modName+"/"+funcName, modObj[funcName]
+          #app[reqMethName] path, modObj[funcName]
         
         # add get routes that query mongoose model fields
         mod = require "./model/"+words[0]+".coffee"
@@ -85,7 +89,7 @@ fs.readdir (__dirname + '/model/'), (err,files) ->
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
-  for route in app.routes.get
-    console.log route.method, route.path
-  for route in app.routes.post
-    console.log route.method, route.path   
+  #for route in app.routes.get
+    #console.log route.method, route.path
+  #for route in app.routes.post
+    #console.log route.method, route.path   

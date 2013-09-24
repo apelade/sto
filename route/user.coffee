@@ -12,10 +12,11 @@ BASE_ITERATIONS = 10000
    
 
 handleLogin = (req, res, err, user, ok) ->
+  console.log "user handleLogin"
   console.log err if err?
   if ok
-    console.log "Logged in"
-    req.session.user_id = "sweet100" 
+    console.log "Logged in ", user
+    req.session.user_id = user
     return res.redirect req.params.path if req.params.path?
   else
     console.log "unsuccessful login attempt for ", user

@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 ObjectId = mongoose.ObjectId
-# Tag = require "../models/Tag"
+# ObjectId = mongoose.ObjectId
  
 # _id is a mongodb ObjectId added automatically
 Item = new mongoose.Schema(
